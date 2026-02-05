@@ -32,7 +32,7 @@ const Navbar = () => {
                 </div>
 
                 <a href="#" className="hover:text-[#173CBA] transition-colors">News</a>
-
+                
                 {/* More Dropdown */}
                 <div className="relative group">
                     <div className="flex items-center gap-1 cursor-pointer hover:text-[#173CBA] transition-colors">
@@ -75,6 +75,9 @@ const Navbar = () => {
                         </Link>
                         <Link to="/upcoming-sessions" className="block px-4 py-3 text-sm text-gray-700 hover:bg-[#F0F9FF] hover:text-[#173CBA] font-medium transition-colors">
                             Upcoming Sessions
+                        </Link>
+                        <Link to="/stepper" className="block px-4 py-3 text-sm text-gray-700 hover:bg-[#F0F9FF] hover:text-[#173CBA] font-medium transition-colors border-t border-gray-100">
+                            Career Stepper (JSX)
                         </Link>
                     </div>
                 </div>
