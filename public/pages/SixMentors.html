@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Mentoring Programs</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <!-- ORIGINAL WEBFLOW CSS -->
+    <!-- ORIGINAL WEBFLOW CSS (Local) -->
+    <link href="./webflow-base.css" rel="stylesheet" type="text/css">
+
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+    <script src="./webfont.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        WebFont.load({ google: { families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic", "PT Sans:400,400italic,700,700italic", "Plus Jakarta Sans:300,regular,500,600,700", "Space Grotesk:300,regular,500,600", "Playfair Display:600", "Inter:400,600,700"] } });
+    </script>
+
+    <!-- GSAP (Local) -->
+    <script src="./gsap.min.js"></script>
+    <script src="./ScrollTrigger.min.js"></script>
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #050505; /* Fallback */
+            color: white;
+            font-family: "Inter", sans-serif;
+        }
+
+        /* OVERRIDE WEBFLOW DEFAULTS - CAREFUL WITH SPOTLIGHT */
+        .section,
+        .w-layout-blockcontainer,
+        .w-container,
+        .container {
+            max-width: none !important;
+            width: 100% !important;
+            /* background: transparent !important;  <-- REMOVED GLOBAL TRANSPARENT FORCE */
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* SPOTLIGHT SPECIFIC - TAKEN FROM SAMPLE */
+        .container.is--spotlight {
+            background-color: #131c31; /* Lighter Dark Blue */
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Maintain full screen */
+            position: relative;
+        }
+
+        /* HEADING & SPOTLIGHT POSITIONING */
+        .torch-wrap {
+            position: relative;
+            z-index: auto;
+            text-align: center;
+            /* Match sample margins if needed, but centering is key */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(5%); /* Moved down to clear header */
+            width: 100%;
+            overflow: visible; /* Ensure larger image isn't clipped */
+        }
+
+        .torch-wrap h2 {
+            position: relative;
+            z-index: 50;
+            color: white; 
+            /* Font styles from sample implied, keeping current or standardizing */
+            font-family: "Playfair Display", serif; /* Ensure serif as in sample class is--serif */
+            font-size: 4rem; 
+            margin-bottom: 10px; /* MATCHING SAMPLE DEFAULT */
+        }
+
+        .torch-wrap img {
+            mix-blend-mode: screen; 
+            width: 140%;
+            max-width: 1500px;
+            display: block;
+            margin-top: -69px; 
+            pointer-events: none;
+            opacity: 1 !important; 
+            position: relative;
+            z-index: 5;
+            /* SEAMLESS BLENDING TRICK: Fade edges with a mask */
+            -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 80%);
+            mask-image: radial-gradient(circle, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 80%);
+        }
+
+        .mentor-card {
+            position: absolute !important;
+            top: 58% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%);
+            margin: 0 !important;
+        }
+
+        /* Active Glow State - VIBRANT PURPLE */
+        .mentor-card.active-card {
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 60px rgba(59, 130, 246, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* NEW CARD STYLING TO MATCH THEME */
+        .mentor-card .card__bg {
+            display: none !important; /* Hide original image bg */
+        }
+        
+        .mentor-card .card__wrap {
+            background-color: #ffffff !important; /* White to match UnifiedHome theme */
+            border: 1px solid rgba(226, 232, 240, 0.8); /* Slate 200 border */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            border-radius: 18px; /* Ensure rounded corners */
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .mentor-card:hover .card__wrap {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Update text colors inside cards to be dark */
+        .mentor-card h2.h3 {
+            color: #0f172a !important; /* Dark Slate */
+        }
+        .mentor-card .desc {
+            color: #475569 !important; /* Slate 600 */
+        }
+
+        /* SCROLL CONTAINER */
+        /* Reduced from 1200vh to 700vh for FASTER transition */
+        .scroll-track {
+            height: 700vh;
+            position: relative;
+        }
+
+        /* STICKY VIEWPORT */
+        .sticky-viewport {
+            position: sticky;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* MENTORS RIGHT PANEL */
+        .right-panel {
+            position: absolute;
+            right: 5%;
+            top: 58%;
+            transform: translateY(-50%);
+            width: 40%;
+            height: 520px;
+            background: #f8fafc;
+            /* Slate 50 */
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+            color: #0f172a;
+            /* Slate 900 */
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            /* For background shapes */
+
+            /* DOTS PATTERN ONLY (Arrows removed) */
+            background-image:
+                radial-gradient(#cbd5e1 1px, transparent 1px);
+
+            background-size:
+                20px 20px;
+
+            background-position:
+                0 0;
+
+            background-repeat:
+                repeat;
+        }
+
+        .sub-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* 2x2 Grid */
+            gap: 16px;
+            overflow-y: visible;
+            /* Changed from hidden to visible so borders/shadows don't clip */
+            flex: 1;
+            padding: 20px;
+            perspective: 1000px;
+            align-content: start;
+        }
+
+        /* Hide Scrollbar */
+        .sub-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sub-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            transform-style: preserve-3d;
+            position: relative;
+            /* For abstracting arrow */
+        }
+
+        /* TILT ANIMATION ON HOVER - Purple */
+        .sub-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
+            box-shadow: -10px 15px 30px rgba(59, 130, 246, 0.2);
+            border-color: #c084fc;
+        }
+
+        /* TOP RIGHT ARROW */
+        /* TOP RIGHT ARROW */
+        .card-arrow {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            color: #94a3b8;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sub-card:hover .card-arrow {
+            color: #3B82F6;
+            /* Purple-600 */
+            /* transform: translateX(2px) translateY(-2px); Removed transform to keep text stable */
+        }
+
+        .sub-btn {
+            background: #3B82F6;
+            /* Purple-600 */
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: auto;
+            cursor: pointer;
+            width: fit-content;
+        }
+
+        /* Explore Button Hover - Removed/Replaced */
+
+        /* Pagination Button Hover */
+        #prevBtn:hover:not(:disabled),
+        #nextBtn:hover:not(:disabled) {
+            border-color: #3B82F6 !important;
+            color: #3B82F6 !important;
+            background: #faf5ff !important;
+        }
+
+        /* TRANSITION CLASSES */
+        .card.mentors-layout {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .card.mentors-layout .card__content {
+            flex-direction: row !important;
+            padding: 16px !important;
+            align-items: center !important;
+        }
+
+        .card.mentors-layout .card__content-left {
+            width: 55% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+        }
+
+        .card.mentors-layout h2.h3 {
+            font-family: "Playfair Display", serif !important;
+            font-size: 18px !important;
+            margin: 0 !important;
+            color: #1e293b !important;
+        }
+
+        .card.mentors-layout .desc {
+            font-size: 13px !important;
+            line-height: 1.3 !important;
+            margin-top: 4px !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            opacity: 0.8 !important;
+            color: #475569 !important;
+        }
+
+        .card.mentors-layout .card__founder-img {
+            width: 45% !important;
+            height: 100% !important;
+            position: absolute !important;
+            right: 0 !important;
+            top: 0 !important;
+            bottom: auto !important;
+            border-radius: 0 18px 18px 0 !important;
+            object-fit: cover !important;
+            border: none !important;
+        }
+
+        .spotlight {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="main-bg" style="width:100%; min-height:100vh;">
+        <div class="scroll-track">
+            <div class="sticky-viewport">
+
+                <div class="section is--spotlight"
+                    style="width:100%; height:100vh; padding:0; display:flex; justify-content:center; align-items:center;">
+                    <div class="w-layout-blockcontainer container is--spotlight w-container">
+                        <div class="spotlight">
+
+                            <div class="torch-wrap" id="torch">
+                                <h2 class="h2 is--serif is--z1" style="color:white;">OUR MENTORS</h2>
+                                <img src="blue-spotlight.png"
+                                    loading="lazy" alt="" class="torch__img">
+                            </div>
+
+                            <!-- Card 1 -->
+                            <div class="card mentor-card" id="card0">
+                                <div class="card__wrap">
+                                    <img src="https://cdn.prod.website-files.com/669234da118a5e4b17f728c2/669cf1ad626f17a95b92d566_Cubes.png"
+                                        alt="" class="card__bg">
+                                    <div class="card__content">
+                                        <div class="card__content-left">
+                                            <h2 class="h3 is--serif">Student Mentor</h2>
+                                            <div class="para-temp white _36 desc">"Guides students through academic
+                                                challenges and personal growth."</div>
+                                        </div>
+                                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=300" class="card__founder-img">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="card mentor-card" id="card1">
+                                <div class="card__wrap">
+                                    <img src="https://cdn.prod.website-files.com/669234da118a5e4b17f728c2/669cf1ad626f17a95b92d566_Cubes.png"
+                                        alt="" class="card__bg">
+                                    <div class="card__content">
+                                        <div class="card__content-left">
+                                            <h2 class="h3 is--serif">Admission Mentor</h2>
+                                            <div class="para-temp white _36 desc">"Supports students in choosing the
+                                                right course and institution."</div>
+                                        </div>
+                                        <img src="https://images.unsplash.com/photo-1590012314607-cda9d9b699ae?auto=format&fit=crop&q=80&w=300" class="card__founder-img">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="card mentor-card" id="card2">
+                                <div class="card__wrap">
+                                    <img src="https://cdn.prod.website-files.com/669234da118a5e4b17f728c2/669cf1ad626f17a95b92d566_Cubes.png"
+                                        alt="" class="card__bg">
+                                    <div class="card__content">
+                                        <div class="card__content-left">
+                                            <h2 class="h3 is--serif">Loan Mentor</h2>
+                                            <div class="para-temp white _36 desc">"Assists students and parents with
+                                                education loan options, eligibility, and repayment."</div>
+                                        </div>
+                                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=300" class="card__founder-img">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4 -->
+                            <div class="card mentor-card" id="card3">
+                                <div class="card__wrap">
+                                    <img src="https://cdn.prod.website-files.com/669234da118a5e4b17f728c2/669cf1ad626f17a95b92d566_Cubes.png"
+                                        alt="" class="card__bg">
+                                    <div class="card__content">
+                                        <div class="card__content-left">
+                                            <h2 class="h3 is--serif">Career Mentor</h2>
+                                            <div class="para-temp white _36 desc">"Helps students explore career paths,
+                                                internships, and opportunities."</div>
+                                        </div>
+                                        <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=300" class="card__founder-img">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 5 -->
+                            <div class="card mentor-card" id="card4">
+                                <div class="card__wrap">
+                                    <img src="https://cdn.prod.website-files.com/669234da118a5e4b17f728c2/669cf1ad626f17a95b92d566_Cubes.png"
+                                        alt="" class="card__bg">
+                                    <div class="card__content">
+                                        <div class="card__content-left">
+                                            <h2 class="h3 is--serif">Scholarship Mentor</h2>
+                                            <div class="para-temp white _36 desc">"Guides students in identifying
+                                                suitable scholarships and grants."</div>
+                                        </div>
+                                        <img src="https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?auto=format&fit=crop&q=80&w=300" class="card__founder-img">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 6 -->
+                            <div class="card mentor-card" id="card5">
+                                <div class="card__wrap">
+                                    <img src="https://cdn.prod.website-files.com/669234da118a5e4b17f728c2/669cf1ad626f17a95b92d566_Cubes.png"
+                                        alt="" class="card__bg">
+                                    <div class="card__content">
+                                        <div class="card__content-left">
+                                            <h2 class="h3 is--serif">Health Mentor</h2>
+                                            <div class="para-temp white _36 desc">"Promotes physical and mental
+                                                well-being among students."</div>
+                                        </div>
+                                        <img src="https://images.unsplash.com/photo-1544367563-12123d896889?auto=format&fit=crop&q=80&w=300" class="card__founder-img">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT PANEL -->
+                <div class="right-panel" id="rightPanel">
+                    <h3 style="font-family:'Playfair Display'; font-size:28px; margin-bottom:12px;">Mentors</h3>
+                    <div class="sub-grid" id="subGrid"></div>
+
+                    <!-- PAGINATION FOOTER -->
+                    <div id="paginationFooter"
+                        style="margin-top: 20px; display:flex; justify-content:center; align-items:center; width:100%; gap: 20px;">
+
+                        <!-- Left Arrow -->
+                        <button id="prevBtn" style="
+                            width: 36px; height: 36px; border-radius: 50%;
+                            border: 1px solid #cbd5e1; background: white;
+                            display: flex; justify-content: center; align-items: center;
+                            cursor: pointer; color: #64748b; transition: all 0.2s ease;
+                        ">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </button>
+
+                        <!-- Dots Container -->
+                        <div id="paginationDots" style="display: flex; gap: 8px;">
+                            <!-- Dots injected by JS -->
+                        </div>
+
+                        <!-- Right Arrow -->
+                        <button id="nextBtn" style="
+                            width: 36px; height: 36px; border-radius: 50%;
+                            border: 1px solid #cbd5e1; background: white;
+                            display: flex; justify-content: center; align-items: center;
+                            cursor: pointer; color: #64748b; transition: all 0.2s ease;
+                        ">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MENTOR DATA -->
+    <script>
+        const mentorsData = [
+            {
+                name: "Student Mentor",
+                subs: [
+                    { n: "Rajiv Inuganti", e: "7+ yrs", d: "Career counseling", img: "https://i.pravatar.cc/150?img=12" },
+                    { n: "Anjali Verma", e: "5+ yrs", d: "Student success", img: "https://i.pravatar.cc/150?img=32" },
+                    { n: "Sarah Lin", e: "4 yrs", d: "Study Skills", img: "https://i.pravatar.cc/150?img=48" },
+                    { n: "David Chen", e: "3 yrs", d: "Peer support", img: "https://i.pravatar.cc/150?img=15" },
+                    { n: "Alex Morgan", e: "2 yrs", d: "Freshman Guide", img: "https://i.pravatar.cc/150?img=11" },
+                    // 4 Extra Mentors
+                    { n: "Sophia Reed", e: "6 yrs", d: "Academic Planning", img: "https://i.pravatar.cc/150?img=5" },
+                    { n: "Marcus Johnson", e: "4 yrs", d: "Leadership Coach", img: "https://i.pravatar.cc/150?img=8" },
+                    { n: "Elena Rodriguez", e: "5+ yrs", d: "International Student Support", img: "https://i.pravatar.cc/150?img=9" },
+                    { n: "Thomas Wright", e: "3 yrs", d: "Research Skills", img: "https://i.pravatar.cc/150?img=13" }
+                ]
+            },
+            {
+                name: "Admission Mentor",
+                subs: [
+                    { n: "Medoju Mohan", e: "10+ yrs", d: "Admissions expert", img: "https://i.pravatar.cc/150?img=11" },
+                    { n: "Pooja Nair", e: "8+ yrs", d: "International", img: "https://i.pravatar.cc/150?img=44" },
+                    { n: "Robert Fox", e: "6 yrs", d: "College applications", img: "https://i.pravatar.cc/150?img=33" },
+                    { n: "Emily Zhao", e: "5 yrs", d: "Entrance exams", img: "https://i.pravatar.cc/150?img=24" },
+                    // Extras
+                    { n: "Chris Evans", e: "6 yrs", d: "Essay Review", img: "https://i.pravatar.cc/150?img=15" },
+                    { n: "Natasha R", e: "4 yrs", d: "Interview Prep", img: "https://i.pravatar.cc/150?img=25" },
+                    { n: "Bruce B", e: "9 yrs", d: "Strategic Planning", img: "https://i.pravatar.cc/150?img=65" },
+                    { n: "Tony Stark", e: "10 yrs", d: "Engineering Admissions", img: "https://i.pravatar.cc/150?img=55" }
+                ]
+            },
+            {
+                name: "Loan Mentor",
+                subs: [
+                    { n: "Vikas Shah", e: "12+ yrs", d: "Loan advisory", img: "https://i.pravatar.cc/150?img=70" },
+                    { n: "Ritu M", e: "9+ yrs", d: "Planning", img: "https://i.pravatar.cc/150?img=41" },
+                    { n: "Amit Patel", e: "8 yrs", d: "Interest rates", img: "https://i.pravatar.cc/150?img=53" },
+                    { n: "Lisa Wong", e: "6 yrs", d: "Scholarship funding", img: "https://i.pravatar.cc/150?img=22" },
+                    // Extras
+                    { n: "Harry Potter", e: "3 yrs", d: "Financial Aid", img: "https://i.pravatar.cc/150?img=52" },
+                    { n: "Hermione G", e: "5 yrs", d: "Budgeting", img: "https://i.pravatar.cc/150?img=42" },
+                    { n: "Ron W", e: "2 yrs", d: "Student Loans", img: "https://i.pravatar.cc/150?img=12" },
+                    { n: "David Lee", e: "2 yrs", d: "Mock interviews", img: "https://i.pravatar.cc/150?img=17" },
+                    // Extras
+                    { n: "Aisha Khan", e: "5 yrs", d: "Salary Negotiation", img: "https://i.pravatar.cc/150?img=20" },
+                    { n: "Paul Chen", e: "3 yrs", d: "Design Systems", img: "https://i.pravatar.cc/150?img=55" },
+                    { n: "Lara Croft", e: "7 yrs", d: "Exploration", img: "https://i.pravatar.cc/150?img=33" },
+                    { n: "Mike Ross", e: "4 yrs", d: "Legal Tech", img: "https://i.pravatar.cc/150?img=12" }
+                ]
+            },
+            {
+                name: "Career Mentor",
+                subs: [
+                    { n: "Surya Kotha", e: "18+ yrs", d: "Tech leadership", img: "https://i.pravatar.cc/150?img=68" },
+                    { n: "Arjun Patel", e: "9+ yrs", d: "Resume building", img: "https://i.pravatar.cc/150?img=59" },
+                    { n: "Nina Ricci", e: "11 yrs", d: "Interview prep", img: "https://i.pravatar.cc/150?img=49" },
+                    { n: "Tom Hardy", e: "7 yrs", d: "Networking", img: "https://i.pravatar.cc/150?img=13" },
+                    // Extras
+                    { n: "Jerry S", e: "8 yrs", d: "Public Speaking", img: "https://i.pravatar.cc/150?img=23" },
+                    { n: "Elaine B", e: "5 yrs", d: "Copywriting", img: "https://i.pravatar.cc/150?img=43" },
+                    { n: "George C", e: "4 yrs", d: "Real Estate", img: "https://i.pravatar.cc/150?img=53" },
+                    { n: "Kramer", e: "9 yrs", d: "Entrepreneurship", img: "https://i.pravatar.cc/150?img=63" }
+                ]
+            },
+            {
+                name: "Scholarship Mentor",
+                subs: [
+                    { n: "Nikhil Verma", e: "10+ yrs", d: "Global grants", img: "https://i.pravatar.cc/150?img=61" },
+                    { n: "Sonia G", e: "8+ yrs", d: "Funding", img: "https://i.pravatar.cc/150?img=42" },
+                    { n: "Maria G", e: "6 yrs", d: "Arts grants", img: "https://i.pravatar.cc/150?img=35" },
+                    { n: "John Doe", e: "5 yrs", d: "Merit scholarships", img: "https://i.pravatar.cc/150?img=60" },
+                    // Extras
+                    { n: "Jane Doe", e: "4 yrs", d: "STEM Grants", img: "https://i.pravatar.cc/150?img=40" },
+                    { n: "Alice W", e: "3 yrs", d: "Need-based Aid", img: "https://i.pravatar.cc/150?img=30" },
+                    { n: "Bob M", e: "6 yrs", d: "Sports Scholarships", img: "https://i.pravatar.cc/150?img=20" },
+                    { n: "Charlie C", e: "5 yrs", d: "Fellowships", img: "https://i.pravatar.cc/150?img=10" }
+                ]
+            },
+            {
+                name: "Health Mentor",
+                subs: [
+                    { n: "Dr. Meera", e: "15+ yrs", d: "Mental health", img: "https://i.pravatar.cc/150?img=45" },
+                    { n: "Rohan Sen", e: "6+ yrs", d: "Stress management", img: "https://i.pravatar.cc/150?img=57" },
+                    { n: "Anita Roy", e: "9 yrs", d: "Yoga & Mindfulness", img: "https://i.pravatar.cc/150?img=36" },
+                    { n: "James King", e: "3 yrs", d: "Optimization", img: "https://i.pravatar.cc/150?img=60" },
+                    // Extras
+                    { n: "Sara Tan", e: "4 yrs", d: "Content Strategy", img: "https://i.pravatar.cc/150?img=41" },
+                    { n: "Ben Stokes", e: "5 yrs", d: "B2B Sales", img: "https://i.pravatar.cc/150?img=51" },
+                    { n: "Jenny Lo", e: "2 yrs", d: "Growth Hacking", img: "https://i.pravatar.cc/150?img=32" },
+                    { n: "Tim Cook", e: "8 yrs", d: "Logistics", img: "https://i.pravatar.cc/150?img=11" }
+                ]
+            }
+        ];
+    </script>
+
+    <!-- ANIMATION -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const cards = document.querySelectorAll('.mentor-card');
+        const rightPanel = document.getElementById('rightPanel');
+        const torch = document.getElementById('torch');
+        const body = document.body;
+
+        // INITIAL SETTINGS
+        // Cards start INVISIBLE and OFF-SCREEN (Bottom).
+        // Stacking: Standard Order (Card 0 at Back, Card 1 on Top)
+        gsap.set(cards, {
+            xPercent: -50,
+            yPercent: -50,
+            x: 0,
+            y: window.innerHeight * 0.8, // Start deep below
+            opacity: 0,
+            scale: 0.8,
+            zIndex: (i) => i + 1 // Normal staking: Card 1 covers Card 0
+        });
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".scroll-track",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1, // Faster response (was 2.5)
+                pin: ".sticky-viewport"
+            }
+        });
+
+        // --- PHASE 1: SEQUENTIAL SCROLL (Stack 1-6) ---
+        // Cards fly in from bottom -> Stack in center.
+        // Spotlight STAYS PUT.
+
+        cards.forEach((card, i) => {
+            // 1. All cards settle at roughly the same CENTER spot to create a deck
+            tl.to(card, {
+                x: 0,
+                // Stack nicely AT THE CENTER
+                // Center + small offset for stacking
+                y: (i * -5),
+                scale: 1,
+                opacity: 1, // Visible on scroll
+                rotation: i % 2 === 0 ? 3 : -3,
+                xPercent: -50,
+                yPercent: -50,
+                duration: 2,
+                ease: "power2.out"
+            }, ">"); // Append strictly
+
+            // 2. GAP
+            if (i < cards.length - 1) {
+                tl.to({}, { duration: 1 });
+            }
+        });
+
+
+        // --- PHASE 2: PAUSE / GAP (End of 6 cards) ---
+        tl.to({}, { duration: 2 });
+
+        // --- PHASE 3: GRID TRANSITION (7th Step) ---
+        const transitionStart = ">";
+
+        // Fade out Torch & Title now
+        tl.to(torch, { opacity: 0, duration: 1 }, transitionStart);
+
+        // Animate the container background instead of body
+        const container = document.querySelector('.container.is--spotlight');
+        tl.to(container, {
+            backgroundColor: "#e6f2ff", // Light blue requested
+            duration: 3,
+            ease: "power2.inOut"
+        }, transitionStart);
+        
+        // Also ensure body matches just in case
+        tl.to(body, { backgroundColor: "#e6f2ff", duration:3 }, transitionStart);
+
+        const cardW = 240;
+        const cardH = 140;
+        const gap = 24;
+        const leftPanelCenterX = -window.innerWidth * 0.25;
+
+        tl.to(cards, {
+            x: (i) => {
+                const col = i % 2;
+                const offset = (cardW + gap) / 2;
+                return col === 0 ? (leftPanelCenterX - offset) : (leftPanelCenterX + offset);
+            },
+            y: (i) => {
+                const row = Math.floor(i / 2); // 0, 1, 2
+                return (row - 1) * (cardH + gap);
+            },
+            width: cardW,
+            height: cardH,
+            rotation: 0,
+            scale: 1,
+            borderRadius: "18px",
+            // Keep anchor at center for smooth transform
+            xPercent: -50,
+            yPercent: -50,
+            duration: 4,
+            ease: "power2.inOut",
+            onStart: () => {
+                cards.forEach(c => c.classList.add('mentors-layout'));
+            },
+            onReverseComplete: () => {
+                cards.forEach(c => c.classList.remove('mentors-layout'));
+            }
+        }, transitionStart);
+
+        // --- PHASE 4: RIGHT PANEL ---
+        tl.to(rightPanel, {
+            opacity: 1,
+            visibility: "visible",
+            duration: 2
+        }, ">-1");
+
+
+        // --- INTERACTION ---
+        cards.forEach((card, index) => {
+            card.onclick = () => {
+                // Clear active state from ALL cards
+                cards.forEach(c => c.classList.remove('active-card'));
+                // Add glow to CLICKED card
+                card.classList.add('active-card');
+
+                populateRight(index);
+            };
+        });
+
+        // Initialize First Card as Active
+        cards[0].classList.add('active-card');
+
+        function populateRight(index) {
+            const data = mentorsData[index];
+            const grid = document.getElementById('subGrid');
+            grid.innerHTML = "";
+            if (!data) return;
+
+            // PAGINATION LOGIC
+            const itemsPerPage = 4;
+            const totalPages = Math.ceil(data.subs.length / itemsPerPage);
+            let currentPage = 0; // State is local to this render, but resetting on category switch is desired
+
+            const renderPage = (page) => {
+                grid.innerHTML = "";
+                const start = page * itemsPerPage;
+                const end = start + itemsPerPage;
+                const pageItems = data.subs.slice(start, end);
+
+                pageItems.forEach(s => {
+                    const el = document.createElement('div');
+                    el.className = 'sub-card';
+                    el.style.position = 'relative';
+                    el.innerHTML = `
+                       <div style="display:flex; justify-content:space-between; align-items:start; padding-right: 0;"> 
+                            <div style="display:flex; gap:12px; align-items:center;">
+                                <img src="${s.img}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+                                <div>
+                                    <h4 style="margin:0; font-size:14px; color:#0f172a">${s.n}</h4>
+                                    <span style="font-size:11px; color:#3B82F6; font-weight:600">${s.e} Exp</span>
+                                </div>
+                            </div>
+                       </div>
+                       <p style="font-size:13px; color:#475569; margin:0; line-height:1.4; margin-top:8px;">${s.d}</p>
+                       <button class="sub-btn">Connect</button>
+                    `;
+                    grid.appendChild(el);
+                });
+
+                // Animate
+                gsap.fromTo(grid.children, { y: 10, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.05, duration: 0.4 });
+
+                updateControls(page);
+            };
+
+            const updateControls = (page) => {
+                const prev = document.getElementById('prevBtn');
+                const next = document.getElementById('nextBtn');
+                const dotsContainer = document.getElementById('paginationDots');
+
+                // Buttons
+                // Always show footer to maintain consistent layout as per request
+                document.getElementById('paginationFooter').style.display = 'flex';
+
+                // If single page, we still show controls but they might be disabled 
+                // However, requested "dots" implies we should show at least one dot.
+
+                prev.disabled = page === 0;
+                prev.style.opacity = page === 0 ? '0.5' : '1';
+                prev.style.cursor = page === 0 ? 'default' : 'pointer';
+
+                next.disabled = page === totalPages - 1 || totalPages <= 1; // Disable simple if 1 page
+                next.style.opacity = (page === totalPages - 1 || totalPages <= 1) ? '0.5' : '1';
+                next.style.cursor = (page === totalPages - 1 || totalPages <= 1) ? 'default' : 'pointer';
+
+                // Dots
+                dotsContainer.innerHTML = '';
+                const pagesToShow = totalPages > 0 ? totalPages : 1; // Ensure 1 dot min
+
+                for (let i = 0; i < pagesToShow; i++) {
+                    const dot = document.createElement('div');
+                    dot.style.cssText = `
+                        width: 8px; height: 8px; border-radius: 50%;
+                        background: ${i === page ? '#3B82F6' : '#cbd5e1'};
+                        transition: all 0.3s ease;
+                        cursor: pointer;
+                    `;
+                    dot.onclick = () => { currentPage = i; renderPage(i); };
+                    dotsContainer.appendChild(dot);
+                }
+            };
+
+            // Wire up Buttons
+            const setupButtons = () => {
+                const prev = document.getElementById('prevBtn');
+                const next = document.getElementById('nextBtn');
+
+                // Clone to remove old listeners if re-running
+                const newPrev = prev.cloneNode(true);
+                const newNext = next.cloneNode(true);
+                prev.parentNode.replaceChild(newPrev, prev);
+                next.parentNode.replaceChild(newNext, next);
+
+                newPrev.onclick = () => {
+                    if (currentPage > 0) {
+                        currentPage--;
+                        renderPage(currentPage);
+                    }
+                };
+                newNext.onclick = () => {
+                    if (totalPages > 1 && currentPage < totalPages - 1) { // Added check
+                        currentPage++;
+                        renderPage(currentPage);
+                    }
+                };
+            };
+
+            setupButtons();
+            renderPage(0);
+
+            // "Cute and Clean" Animation: FROM-TO for robustness
+            // Ensures they definitely end up at opacity 1
+            gsap.fromTo(grid.children,
+                { y: 20, opacity: 0, scale: 0.95 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    stagger: 0.08,
+                    duration: 0.5,
+                    ease: "back.out(1.5)"
+                }
+            );
+        }
+
+        populateRight(0);
+    </script>
+</body>
+
+</html>

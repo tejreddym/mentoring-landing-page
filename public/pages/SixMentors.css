@@ -1,0 +1,336 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:wght@600&family=Plus+Jakarta+Sans:wght@300;500;600;700&family=Space+Grotesk:wght@300;500;600&display=swap');
+
+html,
+body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #050505;
+    /* Fallback */
+    color: white;
+    font-family: "Inter", sans-serif;
+}
+
+/* OVERRIDE WEBFLOW DEFAULTS - CAREFUL WITH SPOTLIGHT */
+.section,
+.w-layout-blockcontainer,
+.w-container,
+.container {
+    max-width: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* SPOTLIGHT SPECIFIC - TAKEN FROM SAMPLE */
+.container.is--spotlight {
+    background-color: #131c31;
+    /* Lighter Dark Blue */
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Maintain full screen */
+    position: relative;
+}
+
+/* HEADING & SPOTLIGHT POSITIONING */
+.torch-wrap {
+    position: relative;
+    z-index: auto;
+    text-align: center;
+    /* Match sample margins if needed, but centering is key */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-10%);
+    /* Brought down from -40% to fix heading visibility */
+    width: 100%;
+    overflow: visible;
+    /* Ensure larger image isn't clipped */
+}
+
+.torch-wrap h2 {
+    position: relative;
+    z-index: 50;
+    color: white;
+    /* Font styles from sample implied, keeping current or standardizing */
+    font-family: "Playfair Display", serif;
+    /* Ensure serif as in sample class is--serif */
+    font-size: 4rem;
+    margin-bottom: 10px;
+    /* MATCHING SAMPLE DEFAULT */
+}
+
+.torch-wrap img {
+    mix-blend-mode: screen;
+    width: 140%;
+    max-width: 1500px;
+    display: block;
+    margin-top: -69px;
+    pointer-events: none;
+    opacity: 1 !important;
+    position: relative;
+    z-index: 5;
+    /* SEAMLESS BLENDING TRICK: Fade edges with a mask */
+    -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 80%);
+    mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 80%);
+}
+
+.mentor-card {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    margin: 0 !important;
+}
+
+/* Active Glow State - VIBRANT PURPLE (Now Blue) */
+.mentor-card.active-card {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 60px rgba(59, 130, 246, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* NEW CARD STYLING TO MATCH THEME */
+.mentor-card .card__bg {
+    display: none !important;
+    /* Hide original image bg */
+}
+
+.mentor-card .card__wrap {
+    background-color: #ffffff !important;
+    /* White to match UnifiedHome theme */
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    /* Slate 200 border */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* Soft shadow */
+    border-radius: 18px;
+    /* Ensure rounded corners */
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mentor-card:hover .card__wrap {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Update text colors inside cards to be dark */
+.mentor-card h2.h3 {
+    color: #0f172a !important;
+    /* Dark Slate */
+}
+
+.mentor-card .desc {
+    color: #475569 !important;
+    /* Slate 600 */
+}
+
+/* SCROLL CONTAINER */
+/* Reduced from 1200vh to 700vh for FASTER transition */
+.scroll-track {
+    height: 700vh;
+    position: relative;
+}
+
+/* STICKY VIEWPORT */
+.sticky-viewport {
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* MENTORS RIGHT PANEL */
+.right-panel {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40%;
+    height: 520px;
+    background: #f8fafc;
+    /* Slate 50 */
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+    color: #0f172a;
+    /* Slate 900 */
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    /* For background shapes */
+
+    /* DOTS PATTERN ONLY (Arrows removed) */
+    background-image:
+        radial-gradient(#cbd5e1 1px, transparent 1px);
+
+    background-size:
+        20px 20px;
+
+    background-position:
+        0 0;
+
+    background-repeat:
+        repeat;
+}
+
+.sub-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 2x2 Grid */
+    gap: 16px;
+    overflow-y: visible;
+    /* Changed from hidden to visible so borders/shadows don't clip */
+    flex: 1;
+    padding: 20px;
+    perspective: 1000px;
+    align-content: start;
+}
+
+/* Hide Scrollbar */
+.sub-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.sub-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    transform-style: preserve-3d;
+    position: relative;
+    /* For abstracting arrow */
+}
+
+/* TILT ANIMATION ON HOVER - Purple */
+.sub-card:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
+    box-shadow: -10px 15px 30px rgba(59, 130, 246, 0.2);
+    border-color: #c084fc;
+}
+
+/* TOP RIGHT ARROW */
+/* TOP RIGHT ARROW */
+.card-arrow {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: #94a3b8;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sub-card:hover .card-arrow {
+    color: #3B82F6;
+    /* Purple-600 */
+    /* transform: translateX(2px) translateY(-2px); Removed transform to keep text stable */
+}
+
+.sub-btn {
+    background: #3B82F6;
+    /* Purple-600 */
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-top: auto;
+    cursor: pointer;
+    width: fit-content;
+}
+
+/* Explore Button Hover - Removed/Replaced */
+
+/* Pagination Button Hover */
+#prevBtn:hover:not(:disabled),
+#nextBtn:hover:not(:disabled) {
+    border-color: #3B82F6 !important;
+    color: #3B82F6 !important;
+    background: #faf5ff !important;
+}
+
+/* TRANSITION CLASSES */
+.card.mentors-layout {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.card.mentors-layout .card__content {
+    flex-direction: row !important;
+    padding: 16px !important;
+    align-items: center !important;
+}
+
+.card.mentors-layout .card__content-left {
+    width: 55% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+
+.card.mentors-layout h2.h3 {
+    font-family: "Playfair Display", serif !important;
+    font-size: 18px !important;
+    margin: 0 !important;
+    color: #1e293b !important;
+}
+
+.card.mentors-layout .desc {
+    font-size: 13px !important;
+    line-height: 1.3 !important;
+    margin-top: 4px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    opacity: 0.8 !important;
+    color: #475569 !important;
+}
+
+.card.mentors-layout .card__founder-img {
+    width: 45% !important;
+    height: 100% !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: auto !important;
+    border-radius: 0 18px 18px 0 !important;
+    object-fit: cover !important;
+    border: none !important;
+}
+
+.spotlight {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
