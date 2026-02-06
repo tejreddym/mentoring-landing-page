@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     return (
-        <nav className="w-full bg-[#F0F9FF] px-6 py-4 md:px-12 flex items-center justify-between sticky top-0 z-50">
+        <nav className="w-full bg-[#F0F9FF] px-6 py-4 md:px-12 flex items-center justify-between sticky top-0 z-[9999]">
             {/* Logo */}
             <div className="flex items-center gap-2 cursor-pointer">
                 <img src="/logo.png" alt="College Mentor" className="h-10 w-auto object-contain" />
@@ -13,7 +13,7 @@ const Navbar = () => {
             {/* Navigation Links */}
             <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
                 <Link to="/" className="hover:text-[#173CBA] transition-colors font-bold text-[#173CBA]">Home</Link>
-                
+
                 <div className="flex items-center gap-1 cursor-pointer hover:text-[#173CBA] transition-colors">
                     Colleges <ChevronDown size={14} />
                 </div>
@@ -32,14 +32,14 @@ const Navbar = () => {
                 </div>
 
                 <a href="#" className="hover:text-[#173CBA] transition-colors">News</a>
-                
+
                 {/* More Dropdown */}
                 <div className="relative group">
                     <div className="flex items-center gap-1 cursor-pointer hover:text-[#173CBA] transition-colors">
                         More <ChevronDown size={14} />
                     </div>
                     {/* Dropdown Menu */}
-                    <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[9999]">
                         <Link to="/testimonials" className="block px-4 py-3 text-sm text-gray-700 hover:bg-[#F0F9FF] hover:text-[#173CBA] font-medium transition-colors">
                             Testimonials
                         </Link>
