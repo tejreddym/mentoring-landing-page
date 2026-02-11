@@ -217,7 +217,7 @@ const Hero = () => {
                             <Users size={16} className="md:w-5 md:h-5" />
                         </div>
                         <div className="text-center md:text-left">
-                            <div className="text-xs md:text-xl font-bold text-[#111827] leading-none">
+                            <div className="text-xs md:text-xl font-bold font-serif text-[#111827] leading-none">
                                 <Counter from={0} to={10000} />+
                             </div>
                             <div className="text-[10px] md:text-sm text-[#4B5563] leading-tight mt-0.5">Students Mentored</div>
@@ -229,7 +229,7 @@ const Hero = () => {
                             <Target size={16} className="md:w-5 md:h-5" />
                         </div>
                         <div className="text-center md:text-left">
-                            <div className="text-xs md:text-xl font-bold text-[#111827] leading-none">
+                            <div className="text-xs md:text-xl font-bold font-serif text-[#111827] leading-none">
                                 <Counter from={0} to={95} />%
                             </div>
                             <div className="text-[10px] md:text-sm text-[#4B5563] leading-tight mt-0.5">Success Rate</div>
@@ -241,7 +241,7 @@ const Hero = () => {
                             <Trophy size={16} className="md:w-5 md:h-5" />
                         </div>
                         <div className="text-center md:text-left">
-                            <div className="text-xs md:text-xl font-bold text-[#111827] leading-none">
+                            <div className="text-xs md:text-xl font-bold font-serif text-[#111827] leading-none">
                                 <Counter from={0} to={500} />+
                             </div>
                             <div className="text-[10px] md:text-sm text-[#4B5563] leading-tight mt-0.5">Expert Mentors</div>

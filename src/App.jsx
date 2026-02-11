@@ -19,6 +19,7 @@ import StepperApp from './components/Stepper/App';
 import DesignSuccessStories from './pages/DesignSuccessStories';
 import UpcomingSessions from './components/UpcomingSessions';
 import UnifiedHome from './pages/UnifiedHome';
+import Home3_1 from './pages/Home3_1';
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
         <Route path="/upcoming-sessions" element={<UpcomingSessions />} />
         <Route path="/stepper" element={<StepperApp />} />
         <Route path="/unified-home" element={<UnifiedHome />} />
+        <Route path="/home3.1" element={<Home3_1 />} />
       </Routes>
       <ChatBot />
     </Router>

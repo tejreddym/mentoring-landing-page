@@ -93,7 +93,7 @@ export function PartnerSpotlight() {
 
                 {/* Hero Header */}
                 <div className="text-center mb-20">
-                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 mb-6">
+                    <h2 className="text-4xl md:text-6xl font-bold font-serif tracking-tight text-gray-900 mb-6">
                         Real Stories, Real Transformations
                     </h2>
                     <p className="text-xl md:text-2xl text-gray-600 font-light max-w-3xl mx-auto">
@@ -153,13 +153,13 @@ export function PartnerSpotlight() {
                             >
                                 <div className="space-y-6">
                                     <div>
-                                        <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">
+                                        <h3 className="text-2xl lg:text-3xl font-bold font-serif text-gray-900 tracking-tight">
                                             Partner Spotlight: <br />
                                             <span className="text-purple-600">{activePartner.name}</span>
                                         </h3>
                                     </div>
 
-                                    <blockquote className="text-lg lg:text-xl text-gray-600 leading-relaxed font-light italic">
+                                    <blockquote className="text-lg lg:text-xl text-gray-600 leading-relaxed font-light italic font-serif">
                                         "{activePartner.quote}"
                                     </blockquote>
 

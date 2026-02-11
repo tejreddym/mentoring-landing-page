@@ -82,6 +82,9 @@ const Navbar = () => {
                         <Link to="/stepper" className="block px-4 py-3 text-sm text-gray-700 hover:bg-[#F0F9FF] hover:text-[#173CBA] font-medium transition-colors border-t border-gray-100">
                             Career Stepper (JSX)
                         </Link>
+                        <Link to="/home3.1" className="block px-4 py-3 text-sm text-gray-700 hover:bg-[#F0F9FF] hover:text-[#173CBA] font-medium transition-colors border-t border-gray-100">
+                            Home 3.1
+                        </Link>
                     </div>
                 </div>
             </div>

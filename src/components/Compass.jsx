@@ -231,9 +231,13 @@ const Compass = ({ targetHeading = null, activeMentor = null, children, onLabelL
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.4 }}
                         >
-                            {/* Globe Background */}
+                            {/* World Map Image Background */}
                             <div className="absolute inset-0 z-0 opacity-40 mix-blend-overlay">
-                                <img src={globe} alt="" className="w-full h-full object-cover opacity-80 rounded-full" />
+                                <img
+                                    src={globe}
+                                    alt="World Map"
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
 
                             {/* Inner Gradient Stroke - Flush with border */}

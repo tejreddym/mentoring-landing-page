@@ -297,6 +297,14 @@ const ChatBot = () => {
                             onClick={() => setIsOpen(!isOpen)}
                             className="relative w-20 h-20 bg-white/20 backdrop-blur-lg border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.2)] rounded-full flex items-center justify-center group overflow-hidden pointer-events-auto"
                             whileHover={{ scale: 1.05 }}
+                            animate={isOpen ? {
+                                y: [0, -10, 0],
+                                transition: {
+                                    duration: 3,
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }
+                            } : {}}
                         >
                             <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent pointer-events-none" />
                             <div className="w-14 h-14 drop-shadow-md relative z-10">

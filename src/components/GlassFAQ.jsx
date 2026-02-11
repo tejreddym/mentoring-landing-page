@@ -54,13 +54,13 @@ export function GlassFAQ() {
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 py-12">
+      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 pt-48 pb-12">
         <div className="w-full max-w-3xl">
           {/* FAQ Heading with Glow & Blur */}
           <div className="text-center mb-12 relative">
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-24 bg-blue-400/20 blur-[64px] rounded-full pointer-events-none" />
             <h1
-              className="text-6xl font-bold text-gray-900 mb-4 relative z-10 tracking-tight"
+              className="text-6xl font-bold font-serif text-gray-900 mb-4 relative z-10 tracking-tight"
             >
               FAQ
             </h1>
@@ -130,7 +130,7 @@ export function GlassFAQ() {
                         className="w-full px-8 py-6 flex items-center justify-between text-left relative z-20"
                       >
                         <span
-                          className={`text-lg pr-4 transition-colors duration-300 font-semibold ${isOpen ? 'text-blue-900' : 'text-gray-900'}`}
+                          className={`text-lg pr-4 transition-colors duration-300 font-semibold font-serif ${isOpen ? 'text-blue-900' : 'text-gray-900'}`}
                         >
                           {item.question}
                         </span>
@@ -207,7 +207,7 @@ export function GlassFAQ() {
               <p className="text-gray-600 text-sm flex items-center">
                 Still have questions?{' '}
                 <span className="font-semibold ml-2 text-gray-900 group-hover:text-blue-600 transition-colors">
-                  Contact our support team &rarr;
+                  Contact our team &rarr;
                 </span>
               </p>
             </div>

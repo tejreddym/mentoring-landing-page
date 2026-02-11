@@ -6,12 +6,12 @@
   --color-primary: #3B82F6;
   --color-accent: #10B981;
   --color-motivational: #F59E0B;
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sans: 'neuzeit-grotesk', sans-serif;
   --font-serif: 'Roboto Slab', serif;
 }
 
 :root {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'neuzeit-grotesk', Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 

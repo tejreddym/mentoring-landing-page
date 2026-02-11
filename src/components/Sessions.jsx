@@ -16,8 +16,9 @@ const Sessions = () => {
             role: "IIT Bombay Alum",
             date: "Feb 12",
             time: "5:00 PM",
-            color: "#E0F2FE", // Light Blue
-            rotate: -2
+            color: "#FEF9C366", // Light Yellow + 40% opacity
+            rotate: -2,
+            image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=100&h=100"
         },
         {
             id: 2,
@@ -27,8 +28,9 @@ const Sessions = () => {
             role: "AIIMS Delhi",
             date: "Feb 14",
             time: "6:30 PM",
-            color: "#F0FDF4", // Light Green
-            rotate: 1
+            color: "#DCFCE766", // Light Mint Green + 40% opacity
+            rotate: 1,
+            image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100"
         },
         {
             id: 3,
@@ -38,8 +40,9 @@ const Sessions = () => {
             role: "IIM Ahmedabad",
             date: "Feb 15",
             time: "4:00 PM",
-            color: "#FFF7ED", // Light Orange
-            rotate: -1
+            color: "#FFEDD566", // Light Orange + 40% opacity
+            rotate: -1,
+            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100"
         },
         {
             id: 4,
@@ -49,8 +52,9 @@ const Sessions = () => {
             role: "NLU Jodhpur",
             date: "Feb 18",
             time: "7:00 PM",
-            color: "#FAF5FF", // Light Purple
-            rotate: 2
+            color: "#F3E8FF66", // Light Lavender + 40% opacity (Matches theme)
+            rotate: 2,
+            image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100&h=100"
         },
         {
             id: 5,
@@ -60,8 +64,9 @@ const Sessions = () => {
             role: "Senior Mentors",
             date: "Daily",
             time: "Slots Available",
-            color: "#FFFBEB", // Light Yellow
-            rotate: -3
+            color: "#FFE4E666", // Light Rose + 40% opacity
+            rotate: -3,
+            image: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=100&h=100"
         },
         {
             id: 6,
@@ -71,8 +76,9 @@ const Sessions = () => {
             role: "Google",
             date: "Feb 20",
             time: "8:00 PM",
-            color: "#E0F2FE", // Light Blue
-            rotate: 1
+            color: "#E9D5FF66", // Light Purple + 40% opacity
+            rotate: 1,
+            image: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&q=80&w=100&h=100"
         }
     ];
 
@@ -81,21 +87,31 @@ const Sessions = () => {
         : sessions.filter(s => s.category === filter);
 
     return (
-        <div className="min-h-screen bg-[#F5F5F0] overflow-hidden relative flex flex-col items-center py-12 md:py-20 font-sans">
-            {/* Corkboard Texture Background */}
-            <div className="absolute inset-0 z-0 opacity-80 pointer-events-none"
-                style={{
-                    backgroundColor: '#d6cba1',
-                    backgroundImage: 'url("https://www.transparenttextures.com/patterns/cork-board.png")',
-                    backgroundSize: '300px'
-                }}
-            />
+        <div className="min-h-screen bg-gradient-to-b from-[#F0F9FF] to-[#E0F2FE] overflow-hidden relative flex flex-col items-center py-12 md:py-20 font-sans">
+            {/* Background Texture & Glows */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <div
+                    className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-40"
+                    style={{
+                        maskImage: 'linear-gradient(to right, black 50%, transparent 100%)',
+                        WebkitMaskImage: 'linear-gradient(to right, black 50%, transparent 100%)'
+                    }}
+                ></div>
+
+                <div className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full bg-[#173CBA] opacity-[0.03] blur-[120px]"></div>
+                <div className="absolute top-[20%] right-[0%] w-[40%] h-[60%] rounded-full bg-[#00C798] opacity-[0.03] blur-[120px]"></div>
+            </div>
 
             {/* Header - Pinned Paper Style */}
-            <div className="relative z-10 mb-12 text-center transform -rotate-1">
-                <div className="bg-white/90 backdrop-blur-sm px-8 py-4 shadow-lg rotate-1 border border-gray-200">
-                    <div className="w-3 h-3 rounded-full bg-red-500 absolute -top-1.5 left-1/2 -translate-x-1/2 shadow-sm border border-red-600"></div>
-                    <h1 className="text-3xl md:text-5xl font-bold text-gray-800 tracking-tight">
+            <div className="relative z-10 mb-12 text-center transform -rotate-1 drop-shadow-2xl">
+                <div
+                    className="bg-white/90 backdrop-blur-sm px-10 py-6 relative"
+                    style={{
+                        clipPath: 'polygon(0% 5%, 5% 0%, 12% 5%, 20% 0%, 30% 5%, 40% 0%, 50% 5%, 60% 0%, 70% 5%, 80% 0%, 90% 5%, 95% 0%, 100% 5%, 98% 15%, 100% 25%, 98% 35%, 100% 45%, 98% 55%, 100% 65%, 98% 75%, 100% 85%, 98% 95%, 100% 100%, 90% 95%, 80% 100%, 70% 95%, 60% 100%, 50% 95%, 40% 100%, 30% 95%, 20% 100%, 10% 95%, 0% 100%, 2% 90%, 0% 80%, 2% 70%, 0% 60%, 2% 50%, 0% 40%, 2% 30%, 0% 20%, 2% 10%)'
+                    }}
+                >
+                    <div className="w-4 h-4 rounded-full bg-red-500 absolute top-3 left-1/2 -translate-x-1/2 shadow-inner border border-red-700 z-10"></div>
+                    <h1 className="text-3xl md:text-5xl font-bold font-serif text-gray-800 tracking-tight pt-2">
                         Upcoming Sessions
                     </h1>
                 </div>
@@ -115,7 +131,7 @@ const Sessions = () => {
                             zIndex: filter === f ? 20 : 1
                         }}
                         className={`
-                            relative px-6 py-3 shadow-md font-handwriting font-bold text-lg transition-colors duration-200
+                            relative px-6 py-3 shadow-md font-serif font-bold text-lg transition-colors duration-200
                             ${filter === f ? 'bg-yellow-200 text-black shadow-xl' : 'bg-yellow-100 text-gray-700 hover:bg-yellow-50'}
                         `}
                         style={{
@@ -150,7 +166,7 @@ const Sessions = () => {
                                     {session.category}
                                 </span>
                                 <div className="text-right">
-                                    <div className="flex items-center gap-1 text-sm font-bold text-gray-800">
+                                    <div className="flex items-center gap-1 text-sm font-bold font-serif text-gray-800">
                                         <Calendar size={14} /> {session.date}
                                     </div>
                                     <div className="flex items-center gap-1 text-xs text-gray-600 mt-1">
@@ -159,13 +175,17 @@ const Sessions = () => {
                                 </div>
                             </div>
 
-                            <h3 className="text-xl font-bold text-gray-900 mb-2 leading-tight min-h-[56px] flex items-center">
+                            <h3 className="text-xl font-bold font-serif text-gray-900 mb-2 leading-tight min-h-[56px] flex items-center">
                                 {session.topic}
                             </h3>
 
                             <div className="flex items-center gap-3 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                                    <User size={20} />
+                                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 overflow-hidden">
+                                    {session.image ? (
+                                        <img src={session.image} alt={session.mentor} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <User size={20} />
+                                    )}
                                 </div>
                                 <div>
                                     <p className="text-sm font-bold text-gray-800">{session.mentor}</p>
