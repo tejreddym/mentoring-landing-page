@@ -1,0 +1,581 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:wght@600&family=Plus+Jakarta+Sans:wght@300;500;600;700&family=Space+Grotesk:wght@300;500;600&family=Roboto+Slab:wght@400;600;700&display=swap');
+
+/* Scope all styles to the Spotlight component container */
+#main-bg {
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Only scope these to elements within the Spotlight section */
+#main-bg h1,
+#main-bg h2,
+#main-bg h3,
+#main-bg h4,
+#main-bg h5,
+#main-bg h6,
+#main-bg .h1,
+#main-bg .h2,
+#main-bg .h3,
+#main-bg .h4,
+#main-bg .h5,
+#main-bg .h6,
+#main-bg .is--serif {
+    font-family: "Playfair Display", serif;
+    font-weight: 600;
+}
+
+#main-bg button,
+#main-bg input,
+#main-bg select,
+#main-bg textarea,
+#main-bg label,
+#main-bg .sub-btn,
+#main-bg .card-arrow,
+#main-bg .para-temp,
+#main-bg .desc,
+#main-bg .sub-card,
+#main-bg .right-panel {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Scope WEBFLOW DEFAULTS to Spotlight section */
+#main-bg .section,
+#main-bg .w-layout-blockcontainer,
+#main-bg .w-container,
+#main-bg .container {
+    max-width: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* SPOTLIGHT SPECIFIC - TAKEN FROM SAMPLE */
+.container.is--spotlight {
+    background-color: #131c31;
+    /* Lighter Dark Blue */
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Maintain full screen */
+    position: relative;
+}
+
+/* HEADING & SPOTLIGHT POSITIONING */
+.torch-wrap {
+    position: relative;
+    z-index: auto;
+    text-align: center;
+    /* Match sample margins if needed, but centering is key */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(5%);
+    /* Moved down to clear header */
+    width: 100%;
+    overflow: visible;
+    /* Ensure larger image isn't clipped */
+}
+
+.torch-wrap h2 {
+    position: relative;
+    z-index: 50;
+    color: white;
+    /* Font styles from sample implied, keeping current or standardizing */
+    font-family: "Playfair Display", serif;
+    /* Ensure serif as in sample class is--serif */
+    font-size: 4rem;
+    margin-bottom: 10px;
+    /* MATCHING SAMPLE DEFAULT */
+}
+
+.torch-wrap img {
+    mix-blend-mode: screen;
+    width: 140%;
+    max-width: 1500px;
+    display: block;
+    margin-top: -20px;
+    pointer-events: none;
+    opacity: 0;
+    position: relative;
+    z-index: 5;
+    /* SEAMLESS BLENDING TRICK: Fade edges with a mask */
+    -webkit-mask-image: radial-gradient(circle,
+            rgba(0, 0, 0, 1) 40%,
+            rgba(0, 0, 0, 0) 80%);
+    mask-image: radial-gradient(circle,
+            rgba(0, 0, 0, 1) 40%,
+            rgba(0, 0, 0, 0) 80%);
+}
+
+/* Specific overrides for .card from webflow-base.css - Using ID for specificity instead of !important */
+#root .mentor-card {
+    position: absolute !important;
+    top: 65% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    margin: 0 !important;
+
+    width: 650px;
+    /* Animatible */
+    height: 330px;
+    /* Animatible */
+    padding: 0;
+
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: block !important;
+    transition: all 0.5s ease;
+}
+
+/* Cascading/stacking effect - each card offset and layered */
+#root .mentor-card:nth-child(1) {
+    z-index: 1 !important;
+}
+
+#root .mentor-card:nth-child(2) {
+    z-index: 2 !important;
+    transform: translate(calc(-50% + 30px), calc(-50% + 30px));
+}
+
+#root .mentor-card:nth-child(3) {
+    z-index: 3 !important;
+    transform: translate(calc(-50% + 60px), calc(-50% + 60px));
+}
+
+#root .mentor-card:nth-child(4) {
+    z-index: 4 !important;
+    transform: translate(calc(-50% + 90px), calc(-50% + 90px));
+}
+
+#root .mentor-card:nth-child(5) {
+    z-index: 5 !important;
+    transform: translate(calc(-50% + 120px), calc(-50% + 120px));
+}
+
+#root .mentor-card:nth-child(6) {
+    z-index: 6 !important;
+    transform: translate(calc(-50% + 150px), calc(-50% + 150px));
+}
+
+/* Ensure flex layout for content */
+#root .mentor-card .card__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    transition: all 0.5s ease;
+}
+
+#root .mentor-card:not(.mentors-layout) .card__content-left {
+    flex: 0 0 50%;
+    /* Force 50% width */
+    width: 50%;
+    max-width: 50%;
+    /* Prevent shrinking */
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    transition: all 0.5s ease;
+}
+
+#root .mentor-card:not(.mentors-layout) .card__founder-img {
+    flex: 0 0 50%;
+    /* Force 50% width in flex container */
+    width: 50%;
+    max-width: 50%;
+    /* Prevent growing */
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0 18px 18px 0;
+    transition: all 0.5s ease;
+}
+
+/* Rounded corners on right side */
+
+/* Title Styling */
+.mentor-card h2.h3 {
+    font-size: 32px !important;
+    margin-bottom: 20px !important;
+    line-height: 1.2 !important;
+}
+
+/* Active Glow State - VIBRANT PURPLE */
+/* Active Glow State - VIBRANT PURPLE */
+.mentor-card.active-card {
+    box-shadow:
+        0 0 30px rgba(59, 130, 246, 0.8),
+        0 0 60px rgba(59, 130, 246, 0.6);
+    border: 1px solid rgba(59, 130, 246, 0.5);
+    z-index: 10 !important;
+}
+
+/* NEW CARD STYLING TO MATCH THEME */
+.mentor-card .card__bg {
+    display: none !important;
+    /* Hide original image bg */
+}
+
+.mentor-card .card__wrap {
+    background-color: #ffffff !important;
+    /* White to match UnifiedHome theme */
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    /* Slate 200 border */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* Soft shadow */
+    border-radius: 18px;
+    /* Ensure rounded corners */
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        z-index 0s;
+    /* Instant z-index change */
+    position: relative;
+    z-index: 1;
+}
+
+.mentor-card:hover {
+    z-index: 10 !important;
+    /* Bring to front on hover */
+}
+
+.mentor-card:hover .card__wrap {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Update text colors inside cards to be dark */
+.mentor-card h2.h3 {
+    color: #0f172a !important;
+    /* Dark Slate */
+}
+
+.mentor-card .desc {
+    color: #475569 !important;
+    /* Slate 600 */
+}
+
+/* SCROLL CONTAINER */
+/* Reduced from 1200vh to 300vh for FASTER transition */
+.scroll-track {
+    height: 300vh;
+    position: relative;
+}
+
+/* STICKY VIEWPORT */
+.sticky-viewport {
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* MENTORS RIGHT PANEL */
+.right-panel {
+    position: absolute;
+    right: 5%;
+    top: 58%;
+    transform: translateY(-50%);
+    width: 40%;
+    height: 600px;
+    background: #f8fafc;
+    /* Slate 50 */
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+    color: #0f172a;
+    /* Slate 900 */
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    /* For background shapes */
+
+    /* DOTS PATTERN ONLY (Arrows removed) */
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+
+    background-size: 20px 20px;
+
+    background-position: 0 0;
+
+    background-repeat: repeat;
+}
+
+.sub-grid {
+    display: flex;
+    flex-direction: column;
+    /* 1 Column Flex */
+    gap: 16px;
+    overflow-y: visible;
+    flex: 1;
+    padding: 10px;
+    height: 100%;
+    z-index: 10;
+}
+
+.featured-mentor-card {
+    flex: 1;
+    /* Take up remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center content vertically */
+}
+
+/* Make image bigger in featured card */
+.featured-mentor-card img {
+    width: 64px !important;
+    height: 64px !important;
+}
+
+.featured-mentor-card h4 {
+    font-size: 18px !important;
+}
+
+.featured-mentor-card p {
+    font-size: 15px !important;
+    margin-top: 16px !important;
+    flex-grow: 1;
+}
+
+.view-all-card {
+    height: 60px;
+    flex: 0 0 60px !important;
+    /* Fixed height at bottom */
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border: 1px dashed #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.view-all-card:hover {
+    background: #e2e8f0;
+    border-color: #94a3b8;
+}
+
+.view-all-card h4 {
+    font-size: 14px !important;
+    color: #475569 !important;
+}
+
+/* Hide extra elements in minimal view all button to verify clean look */
+.view-all-card>div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 !important;
+}
+
+.view-all-card .sub-btn,
+.view-all-card .card-arrow {
+    display: none;
+}
+
+/* Hide Scrollbar */
+.sub-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.sub-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    transform-style: preserve-3d;
+    position: relative;
+    /* For abstracting arrow */
+}
+
+/* TILT ANIMATION ON HOVER - Purple */
+.sub-card:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
+    box-shadow: -10px 15px 30px rgba(59, 130, 246, 0.2);
+    border-color: #c084fc;
+}
+
+/* TOP RIGHT ARROW */
+/* TOP RIGHT ARROW */
+.card-arrow {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: #94a3b8;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sub-card:hover .card-arrow {
+    color: #3b82f6;
+    /* Purple-600 */
+}
+
+.sub-btn {
+    background: #3b82f6;
+    /* Purple-600 */
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-top: auto;
+    cursor: pointer;
+    width: fit-content;
+}
+
+/* Featured Card Specifics */
+.featured-mentor-card .sub-btn {
+    margin-left: auto;
+    margin-right: auto;
+    /* Center horizontal */
+    padding: 10px 24px;
+    /* Larger button */
+    font-size: 14px;
+}
+
+/* Explore Button Hover - Removed/Replaced */
+
+/* Explore Button Hover - Removed/Replaced */
+
+/* Pagination Button Hover */
+#prevBtn:hover:not(:disabled),
+#nextBtn:hover:not(:disabled) {
+    border-color: #3b82f6 !important;
+    color: #3b82f6 !important;
+    background: #faf5ff !important;
+}
+
+/* TRANSITION CLASSES */
+/* TRANSITION CLASSES - INCREASED SPECIFICITY */
+#root .mentor-card.mentors-layout {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 140px;
+    /* Animatible */
+    height: 160px;
+    /* Animatible */
+    overflow: visible !important;
+    perspective: 1000px;
+}
+
+#root .mentor-card.mentors-layout .card__wrap {
+    flex-direction: column !important;
+    background: white !important;
+    padding: 0 !important;
+    /* Remove padding to let image bleed */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+    border-radius: 8px !important;
+    height: 100% !important;
+
+    display: flex !important;
+    justify-content: flex-start !important;
+    overflow: hidden !important;
+    /* Clip image corners */
+
+    transition: all 0.3s ease;
+}
+
+#root .mentor-card.mentors-layout.active-card .card__wrap {
+    box-shadow:
+        0 0 20px rgba(59, 130, 246, 0.6),
+        0 0 40px rgba(59, 130, 246, 0.4) !important;
+    border: 1px solid rgba(59, 130, 246, 0.5) !important;
+    transform: scale(1.02);
+}
+
+#root .mentor-card.mentors-layout .card__content {
+    flex-direction: column !important;
+    padding: 0 !important;
+    /* Managed by children */
+    align-items: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    /* Full height available for children */
+    gap: 0px !important;
+    text-align: center !important;
+    justify-content: flex-start !important;
+}
+
+#root .mentor-card.mentors-layout .card__content-left {
+    width: 100% !important;
+    height: 50% !important;
+    /* Bottom half */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    transform: translateY(0) !important;
+    padding: 8px !important;
+    /* Padding for text */
+}
+
+#root .mentor-card.mentors-layout h2.h3 {
+    font-family: "Playfair Display", serif !important;
+    font-size: 14px !important;
+    margin: 0 !important;
+    color: #1e293b !important;
+    line-height: 1.3 !important;
+    word-spacing: normal !important;
+}
+
+#root .mentor-card.mentors-layout h2.h3 br {
+    display: none;
+}
+
+#root .mentor-card.mentors-layout .desc {
+    display: none !important;
+}
+
+#root .mentor-card.mentors-layout .card__founder-img {
+    width: 100%;
+    height: 50%;
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    border-radius: 0 !important;
+    object-fit: cover !important;
+    border: none !important;
+    margin-bottom: 0px !important;
+    order: -1 !important;
+}
+
+.spotlight {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

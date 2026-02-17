@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { ClipboardList, FileText, Users, Calendar, Check } from 'lucide-react';
 
 const steps = [{
@@ -39,14 +39,18 @@ const steps = [{
 export function CareerStepperHome3() {
     const [currentStep, setCurrentStep] = useState(1);
     const [isExpanding, setIsExpanding] = useState(false);
+    const containerRef = useRef(null);
+    const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
     useEffect(() => {
-        // Wait 1 second, then start expanding the first step
-        const initialTimer = setTimeout(() => {
-            setIsExpanding(true);
-        }, 1000);
-        return () => clearTimeout(initialTimer);
-    }, []);
+        if (isInView) {
+            // Wait 1 second after entering view, then start expanding the first step
+            const initialTimer = setTimeout(() => {
+                setIsExpanding(true);
+            }, 1000);
+            return () => clearTimeout(initialTimer);
+        }
+    }, [isInView]);
 
     useEffect(() => {
         if (isExpanding) {
@@ -76,7 +80,7 @@ export function CareerStepperHome3() {
     }, [isExpanding, currentStep]);
 
     return (
-        <div className="w-full relative overflow-hidden bg-gradient-to-b from-[#F0F9FF] to-[#E0F2FE] py-10 px-4 font-sans">
+        <div ref={containerRef} className="w-full relative overflow-hidden bg-gradient-to-b from-[#F0F9FF] to-[#E0F2FE] py-10 px-4 font-sans">
             {/* Background Texture & Glows (Matches Hero) */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <div

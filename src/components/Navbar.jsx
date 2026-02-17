@@ -59,9 +59,12 @@ const Navbar = () => {
                         <Link to="/mentors-v2" className="block px-4 py-3 text-sm text-gray-700 hover:bg-[#F0F9FF] hover:text-[#173CBA] font-medium transition-colors">
                             Mentors 2.0 (Stack)
                         </Link>
-                        <a href="/pages/SixMentors.html" className="block px-4 py-3 text-sm text-gray-700 hover:bg-[#F0F9FF] hover:text-[#173CBA] font-medium transition-colors">
-                            Six Mentors (Spotlight)
-                        </a>
+                        <Link to="/spotlight" className="block px-4 py-3 text-sm text-gray-700 hover:bg-[#F0F9FF] hover:text-[#173CBA] font-medium transition-colors">
+                            Spotlight
+                        </Link>
+                        <Link to="/mentor-profiles" className="block px-4 py-3 text-sm text-gray-700 hover:bg-[#F0F9FF] hover:text-[#173CBA] font-medium transition-colors">
+                            Mentor Profiles
+                        </Link>
 
                         <Link to="/services" className="block px-4 py-3 text-sm text-gray-700 hover:bg-[#F0F9FF] hover:text-[#173CBA] font-medium transition-colors">
                             Services & Pricing

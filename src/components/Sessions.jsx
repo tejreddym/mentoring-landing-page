@@ -87,7 +87,7 @@ const Sessions = () => {
         : sessions.filter(s => s.category === filter);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-[#F0F9FF] to-[#E0F2FE] overflow-hidden relative flex flex-col items-center py-12 md:py-20 font-sans">
+        <div className="min-h-screen bg-[#d2efee] overflow-hidden relative flex flex-col items-center py-12 md:py-20 font-sans">
             {/* Background Texture & Glows */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <div

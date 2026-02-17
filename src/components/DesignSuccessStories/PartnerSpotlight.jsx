@@ -110,7 +110,7 @@ export function PartnerSpotlight() {
                     {/* Left Column: Avatar Cluster */}
                     <div className="relative w-full lg:w-1/2 h-[400px] lg:h-[500px] flex items-center justify-center">
                         {/* Background Blob */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-purple-200/50 rounded-full blur-3xl" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-blue-200/50 rounded-full blur-3xl" />
 
                         {/* Avatars */}
                         <div className="relative w-full h-full">
@@ -121,8 +121,8 @@ export function PartnerSpotlight() {
                                     <motion.button
                                         key={partner.id}
                                         className={`absolute rounded-full p-1 transition-all duration-500 ease-out object-cover ${partner.position} ${isActive
-                                            ? "w-40 h-40 ring-4 ring-offset-4 ring-purple-500 z-30 shadow-xl shadow-purple-500/40"
-                                            : `${partner.size} ring-1 ring-white/50 hover:ring-2 hover:ring-purple-300 z-10 grayscale hover:grayscale-0`
+                                            ? "w-40 h-40 ring-4 ring-offset-4 ring-[#173CBA] z-30 shadow-xl shadow-blue-900/20"
+                                            : `${partner.size} ring-1 ring-white/50 hover:ring-2 hover:ring-[#00C798] z-10 grayscale hover:grayscale-0`
                                             }`}
                                         onClick={() => setActiveId(partner.id)}
                                         onMouseEnter={() => setActiveId(partner.id)}
@@ -155,7 +155,7 @@ export function PartnerSpotlight() {
                                     <div>
                                         <h3 className="text-2xl lg:text-3xl font-bold font-serif text-gray-900 tracking-tight">
                                             Partner Spotlight: <br />
-                                            <span className="text-purple-600">{activePartner.name}</span>
+                                            <span className="text-[#173CBA]">{activePartner.name}</span>
                                         </h3>
                                     </div>
 
@@ -171,7 +171,7 @@ export function PartnerSpotlight() {
                                     </div>
 
                                     <div className="pt-4">
-                                        <button className="px-6 py-3 bg-purple-600 text-white rounded-full font-medium shadow-lg shadow-purple-600/20 hover:bg-purple-700 transition-colors transform hover:-translate-y-0.5">
+                                        <button className="px-6 py-3 bg-gradient-to-r from-[#173CBA] to-[#00C798] text-white rounded-full font-medium shadow-lg hover:shadow-xl hover:opacity-90 transition-all transform hover:-translate-y-0.5">
                                             Learn More
                                         </button>
                                     </div>

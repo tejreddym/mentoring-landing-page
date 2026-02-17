@@ -20,6 +20,10 @@ import DesignSuccessStories from './pages/DesignSuccessStories';
 import UpcomingSessions from './components/UpcomingSessions';
 import UnifiedHome from './pages/UnifiedHome';
 import Home3_1 from './pages/Home3_1';
+import SixMentors from './pages/SixMentors';
+import MentorProfilesPage from './pages/MentorProfilesPage';
+import BookingPage from './pages/BookingPage';
+import TaaraDashboard from './pages/TaaraDashboard';
 
 
 function App() {
@@ -27,7 +31,7 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Hero />} />
+        <Route path="/" element={<Home3_1 />} />
         <Route path="/home2" element={<Home2 />} />
         <Route path="/testimonials" element={<Testimonials />} />
         <Route path="/roadmap" element={<CareerStepper />} />
@@ -45,6 +49,10 @@ function App() {
         <Route path="/stepper" element={<StepperApp />} />
         <Route path="/unified-home" element={<UnifiedHome />} />
         <Route path="/home3.1" element={<Home3_1 />} />
+        <Route path="/spotlight" element={<SixMentors />} />
+        <Route path="/mentor-profiles" element={<MentorProfilesPage />} />
+        <Route path="/book-session" element={<BookingPage />} />
+        <Route path="/taara-dashboard" element={<TaaraDashboard />} />
       </Routes>
       <ChatBot />
     </Router>
