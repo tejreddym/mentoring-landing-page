@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Clock, User, ArrowRight } from 'lucide-react';
+import SessionReservationSheet from './SessionReservationSheet';
 
 const Sessions = () => {
     const [filter, setFilter] = useState('All');
+    const [selectedSession, setSelectedSession] = useState(null);
 
     const filters = ["All", "Engineering", "Medical", "Management", "Law", "1:1 Mentoring"];
 
@@ -16,9 +18,14 @@ const Sessions = () => {
             role: "IIT Bombay Alum",
             date: "Feb 12",
             time: "5:00 PM",
-            color: "#FEF9C366", // Light Yellow + 40% opacity
+            color: "#FEF9C366",
             rotate: -2,
-            image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=100&h=100"
+            image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=100&h=100",
+            location: "Starhub Co work Jewel Square Mall, Koregaon Park",
+            mapsLink: "https://maps.google.com/?q=Starhub+Co+work+Jewel+Square+Mall+Koregaon+Park",
+            availability: "Almost full",
+            isFree: true,
+            type: "Interactive session with Q&A"
         },
         {
             id: 2,
@@ -28,9 +35,14 @@ const Sessions = () => {
             role: "AIIMS Delhi",
             date: "Feb 14",
             time: "6:30 PM",
-            color: "#DCFCE766", // Light Mint Green + 40% opacity
+            color: "#DCFCE766",
             rotate: 1,
-            image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100"
+            image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100",
+            location: "Online Zoom Session",
+            mapsLink: null,
+            availability: "12 Spots Left",
+            isFree: false,
+            type: "Expert Strategy Workshop"
         },
         {
             id: 3,
@@ -40,9 +52,14 @@ const Sessions = () => {
             role: "IIM Ahmedabad",
             date: "Feb 15",
             time: "4:00 PM",
-            color: "#FFEDD566", // Light Orange + 40% opacity
+            color: "#FFEDD566",
             rotate: -1,
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100"
+            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100",
+            location: "Starhub Co work Jewel Square Mall, Koregaon Park",
+            mapsLink: "https://maps.google.com/?q=Starhub+Co+work+Jewel+Square+Mall+Koregaon+Park",
+            availability: "Almost full",
+            isFree: true,
+            type: "Interactive session with Q&A"
         },
         {
             id: 4,
@@ -52,9 +69,14 @@ const Sessions = () => {
             role: "NLU Jodhpur",
             date: "Feb 18",
             time: "7:00 PM",
-            color: "#F3E8FF66", // Light Lavender + 40% opacity (Matches theme)
+            color: "#F3E8FF66",
             rotate: 2,
-            image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100&h=100"
+            image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100&h=100",
+            location: "Online Webinar",
+            mapsLink: null,
+            availability: "25 Spots Left",
+            isFree: true,
+            type: "Q&A and Career Talk"
         },
         {
             id: 5,
@@ -64,9 +86,14 @@ const Sessions = () => {
             role: "Senior Mentors",
             date: "Daily",
             time: "Slots Available",
-            color: "#FFE4E666", // Light Rose + 40% opacity
+            color: "#FFE4E666",
             rotate: -3,
-            image: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=100&h=100"
+            image: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=100&h=100",
+            location: "Private Video Call",
+            mapsLink: null,
+            availability: "Limited Slots",
+            isFree: false,
+            type: "1:1 Focused Guidance"
         },
         {
             id: 6,
@@ -76,9 +103,14 @@ const Sessions = () => {
             role: "Google",
             date: "Feb 20",
             time: "8:00 PM",
-            color: "#E9D5FF66", // Light Purple + 40% opacity
+            color: "#E9D5FF66",
             rotate: 1,
-            image: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&q=80&w=100&h=100"
+            image: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&q=80&w=100&h=100",
+            location: "Online Live Stream",
+            mapsLink: null,
+            availability: "Open Entry",
+            isFree: true,
+            type: "Career Path Workshop"
         }
     ];
 
@@ -193,13 +225,22 @@ const Sessions = () => {
                                 </div>
                             </div>
 
-                            <button className="w-full bg-black/5 hover:bg-black/10 text-gray-900 font-bold py-2 rounded-sm transition-colors flex items-center justify-center gap-2 group-hover:bg-primary group-hover:text-white">
+                            <button
+                                onClick={() => setSelectedSession(session)}
+                                className="w-full bg-black/5 hover:bg-black/10 text-gray-900 font-bold py-2 rounded-sm transition-colors flex items-center justify-center gap-2 group-hover:bg-primary group-hover:text-white"
+                            >
                                 Reserve Spot <ArrowRight size={16} />
                             </button>
                         </motion.div>
                     ))}
                 </AnimatePresence>
             </div>
+
+            <SessionReservationSheet
+                isOpen={!!selectedSession}
+                onOpenChange={(open) => !open && setSelectedSession(null)}
+                session={selectedSession}
+            />
         </div>
     );
 };

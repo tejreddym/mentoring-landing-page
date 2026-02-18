@@ -579,3 +579,46 @@
     justify-content: center;
     align-items: center;
 }
+
+@media (max-width: 767px) {
+    #root .mentor-card {
+        width: 300px !important;
+        height: 420px !important;
+        top: 60% !important;
+    }
+
+    #root .mentor-card .card__content {
+        flex-direction: column-reverse !important;
+    }
+
+    #root .mentor-card:not(.mentors-layout) .card__content-left {
+        flex: 0 0 55% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 24px 20px !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    #root .mentor-card:not(.mentors-layout) .card__founder-img {
+        flex: 0 0 45% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        border-radius: 18px 18px 0 0 !important;
+    }
+
+    .mentor-card h2.h3 {
+        font-size: 24px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .mentor-card .desc {
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+    }
+
+    .torch-wrap h2 {
+        font-size: 2.5rem !important;
+    }
+}

@@ -170,11 +170,7 @@ export function PartnerSpotlight() {
                                         </div>
                                     </div>
 
-                                    <div className="pt-4">
-                                        <button className="px-6 py-3 bg-gradient-to-r from-[#173CBA] to-[#00C798] text-white rounded-full font-medium shadow-lg hover:shadow-xl hover:opacity-90 transition-all transform hover:-translate-y-0.5">
-                                            Learn More
-                                        </button>
-                                    </div>
+
                                 </div>
                             </motion.div>
                         </AnimatePresence>

@@ -1,37 +1,37 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { ClipboardList, FileText, Users, Calendar, Check } from 'lucide-react';
+import { ClipboardList, FileText, Users, Calendar, Check, Clock } from 'lucide-react';
 
 const steps = [{
     id: 1,
-    title: 'Take Career Assessment',
-    description: 'Discover your ideal career path with our AI-powered test',
+    title: 'Select goal',
+    description: 'Define your future path with our guided goal-setting process',
     icon: ClipboardList,
     image: 'https://images.unsplash.com/photo-1758270705799-12efda48d4f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwdGFraW5nJTIwdGVzdCUyMGV4YW18ZW58MXx8fHwxNzY5NjcxODEzfDA&ixlib=rb-4.1.0&q=80&w=1080',
     color: '#2F7CF6',
     bgGradient: 'linear-gradient(135deg, #2F7CF6 0%, #1E5BC6 100%)'
 }, {
     id: 2,
-    title: 'See Career Report',
-    description: 'Get personalized recommendations and insights',
-    icon: FileText,
-    image: 'https://images.unsplash.com/photo-1759215524566-8aea4761a926?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXJlZXIlMjByZXBvcnQlMjBkb2N1bWVudHxlbnwxfHx8fDE3Njk3NDk3MDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    title: 'Get matched with mentor',
+    description: 'Connect with an expert who specializes in your chosen field',
+    icon: Users,
+    image: 'https://images.unsplash.com/photo-1758691737182-d42aefd6dee8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW50b3IlMjBtZWV0aW5nJTIwcHJvZmVzc2lvbmFsfGVufDF8fHx8MTc2OTc0OTcwMHww&ixlib=rb-4.1.0&q=80&w=1080',
     color: '#FF9500',
     bgGradient: 'linear-gradient(135deg, #FF9500 0%, #E68500 100%)'
 }, {
     id: 3,
-    title: 'Get Matched with Mentor',
-    description: 'Connect with the perfect mentor for your goals',
-    icon: Users,
-    image: 'https://images.unsplash.com/photo-1758691737182-d42aefd6dee8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW50b3IlMjBtZWV0aW5nJTIwcHJvZmVzc2lvbmFsfGVufDF8fHx8MTc2OTc0OTcwMHww&ixlib=rb-4.1.0&q=80&w=1080',
+    title: 'Select slot',
+    description: 'Pick a time that works best for your initial consultation',
+    icon: Clock,
+    image: 'https://images.unsplash.com/photo-1511871893393-82e9c16b81e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxib29raW5nJTIwY2FsZW5kYXIlMjBzY2hlZHVsZXxlbnwxfHx8fDE3Njk3NDk3MDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
     color: '#00D4AA',
     bgGradient: 'linear-gradient(135deg, #00D4AA 0%, #00B890 100%)'
 }, {
     id: 4,
-    title: 'Book Session',
-    description: 'Start your journey with expert guidance',
+    title: 'Book session',
+    description: 'Lock in your spot and prepare for a transformative conversation',
     icon: Calendar,
-    image: 'https://images.unsplash.com/photo-1511871893393-82e9c16b81e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxib29raW5nJTIwY2FsZW5kYXIlMjBzY2hlZHVsZXxlbnwxfHx8fDE3Njk3NDk3MDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    image: 'https://images.unsplash.com/photo-1506784919175-502741604d11?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWxlbmRhciUyMGJvb2tpbmd8ZW58MXx8fHwxNzY5NzQ5NzAyfDA&ixlib=rb-4.1.0&q=80&w=1080',
     color: '#8E5CF7',
     bgGradient: 'linear-gradient(135deg, #8E5CF7 0%, #7344D9 100%)'
 }];

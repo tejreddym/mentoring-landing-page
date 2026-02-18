@@ -53,6 +53,29 @@ const FAQ = () => {
         }
     ];
 
+    const cardVariants = {
+        initial: {
+            opacity: 0,
+            scale: 0.8,
+            x: 0,
+            y: 0,
+            rotate: 0,
+        },
+        animate: (item) => ({
+            opacity: 1,
+            scale: 1,
+            x: item.x * 10,
+            y: item.y * 10,
+            rotate: item.rotation,
+            transition: {
+                type: "spring",
+                stiffness: 100,
+                damping: 20,
+                delay: (item.id - 1) * 0.1,
+            }
+        })
+    };
+
     return (
         <div className="min-h-screen bg-[#F5F5F0] overflow-hidden relative flex items-center justify-center p-4">
             {/* Background Texture (Desk Effect) */}
@@ -64,9 +87,15 @@ const FAQ = () => {
             />
 
             <div className="relative z-10 max-w-5xl w-full h-auto md:h-[80vh] flex flex-col py-10 md:py-0">
-                <h2 className="text-4xl md:text-5xl font-serif text-stone-500/90 font-bold mb-8 md:mb-12 relative z-0 text-left w-full pl-2 md:pl-0 tracking-tight drop-shadow-[1px_1px_0_rgba(255,255,255,0.8)] pointer-events-none">
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.5 }}
+                    transition={{ duration: 0.8 }}
+                    className="text-4xl md:text-5xl font-serif text-stone-500/90 font-bold mb-8 md:mb-12 relative z-0 text-left w-full pl-2 md:pl-0 tracking-tight drop-shadow-[1px_1px_0_rgba(255,255,255,0.8)] pointer-events-none"
+                >
                     Common Questions
-                </h2>
+                </motion.h2>
 
                 <div className="relative w-full flex-1 flex items-center justify-center">
                     {questions.map((item, index) => {
@@ -76,16 +105,21 @@ const FAQ = () => {
                             <motion.div
                                 key={item.id}
                                 layoutId={`card-${item.id}`}
+                                custom={item}
+                                initial="initial"
+                                whileInView={isFocused ? undefined : "animate"}
+                                viewport={{ once: false, amount: 0.3 }}
+                                variants={cardVariants}
                                 onClick={() => setFocusedIndex(isFocused ? null : index)}
-                                animate={{
-                                    rotate: isFocused ? 0 : item.rotation,
-                                    x: isFocused ? 0 : item.x * 10,
-                                    y: isFocused ? 0 : item.y * 10,
-                                    scale: isFocused ? 1.2 : 1,
-                                    zIndex: isFocused ? 50 : 10
-                                }}
+                                animate={isFocused ? {
+                                    rotate: 0,
+                                    x: 0,
+                                    y: 0,
+                                    scale: 1.2,
+                                    zIndex: 50,
+                                    opacity: 1
+                                } : undefined}
                                 whileHover={{ scale: isFocused ? 1.2 : 1.1, zIndex: 40 }}
-                                transition={{ type: "spring", stiffness: 200, damping: 20 }}
                                 className={`
                                     absolute w-64 h-80 md:w-72 md:h-96 p-6 rounded-sm shadow-xl cursor-pointer
                                     flex flex-col justify-between

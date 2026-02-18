@@ -5,8 +5,8 @@ import { ClipboardList, FileText, Users, Calendar, Check } from 'lucide-react';
 const steps = [
     {
         id: 1,
-        title: 'Take Assessment',
-        description: 'Discover your ideal career path with our AI-powered test',
+        title: 'Select Goal',
+        description: 'Choose the outcome you want to achieve from mentorship',
         icon: ClipboardList,
         image: 'https://images.unsplash.com/photo-1758270705799-12efda48d4f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwdGFraW5nJTIwdGVzdCUyMGV4YW18ZW58MXx8fHwxNzY5NjcxODEzfDA&ixlib=rb-4.1.0&q=80&w=1080',
         color: '#2F7CF6',
@@ -14,8 +14,8 @@ const steps = [
     },
     {
         id: 2,
-        title: 'Career Report',
-        description: 'Get personalized recommendations and insights',
+        title: 'Get Matched with Mentor',
+        description: 'We pair you with a mentor who fits your goals',
         icon: FileText,
         image: 'https://images.unsplash.com/photo-1759215524566-8aea4761a926?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXJlZXIlMjByZXBvcnQlMjBkb2N1bWVudHxlbnwxfHx8fDE3Njk3NDk3MDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
         color: '#FF9500',
@@ -23,8 +23,8 @@ const steps = [
     },
     {
         id: 3,
-        title: 'Mentor Match',
-        description: 'Connect with the perfect mentor for your goals',
+        title: 'Select Slot',
+        description: 'Pick a time that works best for your schedule',
         icon: Users,
         image: 'https://images.unsplash.com/photo-1758691737182-d42aefd6dee8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW50b3IlMjBtZWV0aW5nJTIwcHJvZmVzc2lvbmFsfGVufDF8fHx8MTc2OTc0OTcwMHww&ixlib=rb-4.1.0&q=80&w=1080',
         color: '#00D4AA',
@@ -33,7 +33,7 @@ const steps = [
     {
         id: 4,
         title: 'Book Session',
-        description: 'Start your journey with expert guidance',
+        description: 'Confirm and start your session with your mentor',
         icon: Calendar,
         image: 'https://images.unsplash.com/photo-1511871893393-82e9c16b81e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxib29raW5nJTIwY2FsZW5kYXIlMjBzY2hlZHVsZXxlbnwxfHx8fDE3Njk3NDk3MDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
         color: '#8E5CF7',
