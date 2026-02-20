@@ -6,6 +6,7 @@ import SessionReservationSheet from './SessionReservationSheet';
 const Sessions = () => {
     const [filter, setFilter] = useState('All');
     const [selectedSession, setSelectedSession] = useState(null);
+    const [hoveredId, setHoveredId] = useState(null);
 
     const filters = ["All", "Engineering", "Medical", "Management", "Law", "1:1 Mentoring"];
 
@@ -18,14 +19,17 @@ const Sessions = () => {
             role: "IIT Bombay Alum",
             date: "Feb 12",
             time: "5:00 PM",
-            color: "#FEF9C366",
-            rotate: -2,
             image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=100&h=100",
-            location: "Starhub Co work Jewel Square Mall, Koregaon Park",
-            mapsLink: "https://maps.google.com/?q=Starhub+Co+work+Jewel+Square+Mall+Koregaon+Park",
+            location: "Starhub Co work, Koregaon Park",
             availability: "Almost full",
             isFree: true,
-            type: "Interactive session with Q&A"
+            type: "Interactive session with Q&A",
+            vibes: "🔥 High Intensity",
+            sentiment: "92% felt 'Ready to Crush it'",
+            peerPulse: "24 Students from Pune joined",
+            theCatch: "Fast-paced, carry a notepad!",
+            color: "#FFF9C4", // Yellow (From Guidance Packs)
+            rotate: -2
         },
         {
             id: 2,
@@ -35,14 +39,17 @@ const Sessions = () => {
             role: "AIIMS Delhi",
             date: "Feb 14",
             time: "6:30 PM",
-            color: "#DCFCE766",
-            rotate: 1,
             image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100",
             location: "Online Zoom Session",
-            mapsLink: null,
             availability: "12 Spots Left",
             isFree: false,
-            type: "Expert Strategy Workshop"
+            type: "Expert Strategy Workshop",
+            vibes: "🧠 Brain Recharge",
+            sentiment: "88% felt 'De-stressed'",
+            peerPulse: "18 Med-aspirants joined",
+            theCatch: "Bring your specific doubts.",
+            color: "#E8F5E9", // Green
+            rotate: 2
         },
         {
             id: 3,
@@ -52,14 +59,17 @@ const Sessions = () => {
             role: "IIM Ahmedabad",
             date: "Feb 15",
             time: "4:00 PM",
-            color: "#FFEDD566",
-            rotate: -1,
             image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100",
-            location: "Starhub Co work Jewel Square Mall, Koregaon Park",
-            mapsLink: "https://maps.google.com/?q=Starhub+Co+work+Jewel+Square+Mall+Koregaon+Park",
+            location: "Starhub Co work, Koregaon Park",
             availability: "Almost full",
             isFree: true,
-            type: "Interactive session with Q&A"
+            type: "Interactive session with Q&A",
+            vibes: "💰 ROI Focused",
+            sentiment: "95% found 'Clarity'",
+            peerPulse: "42 Future Leaders joined",
+            theCatch: "Heavy on Finance & Salaries.",
+            color: "#FFECB3", // Amber (From Guidance Packs)
+            rotate: -1
         },
         {
             id: 4,
@@ -69,14 +79,16 @@ const Sessions = () => {
             role: "NLU Jodhpur",
             date: "Feb 18",
             time: "7:00 PM",
-            color: "#F3E8FF66",
-            rotate: 2,
             image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100&h=100",
             location: "Online Webinar",
-            mapsLink: null,
             availability: "25 Spots Left",
             isFree: true,
-            type: "Q&A and Career Talk"
+            vibes: "⚖️ Reality Check",
+            sentiment: "84% felt 'Eye-opened'",
+            peerPulse: "15 Law buffs joined",
+            theCatch: "Brutal honesty about work-hours.",
+            color: "#F3E5F5", // Purple
+            rotate: 3
         },
         {
             id: 5,
@@ -86,14 +98,16 @@ const Sessions = () => {
             role: "Senior Mentors",
             date: "Daily",
             time: "Slots Available",
-            color: "#FFE4E666",
-            rotate: -3,
             image: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=100&h=100",
             location: "Private Video Call",
-            mapsLink: null,
             availability: "Limited Slots",
             isFree: false,
-            type: "1:1 Focused Guidance"
+            vibes: "🎯 Hyper-Focus",
+            sentiment: "99% felt 'Heard'",
+            peerPulse: "Joined by 100+ Seniors",
+            theCatch: "Strict 20-min slots.",
+            color: "#FCE4EC", // Pink
+            rotate: -3
         },
         {
             id: 6,
@@ -103,14 +117,16 @@ const Sessions = () => {
             role: "Google",
             date: "Feb 20",
             time: "8:00 PM",
-            color: "#E9D5FF66",
-            rotate: 1,
             image: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&q=80&w=100&h=100",
             location: "Online Live Stream",
-            mapsLink: null,
             availability: "Open Entry",
             isFree: true,
-            type: "Career Path Workshop"
+            vibes: "⚡ Tech Fuel",
+            sentiment: "91% felt 'Optimistic'",
+            peerPulse: "30+ Geeks streaming",
+            theCatch: "Will talk about complex code.",
+            color: "#E1F5FE", // Light Blue (From Guidance Packs)
+            rotate: 1
         }
     ];
 
@@ -119,121 +135,176 @@ const Sessions = () => {
         : sessions.filter(s => s.category === filter);
 
     return (
-        <div className="min-h-screen bg-[#d2efee] overflow-hidden relative flex flex-col items-center py-12 md:py-20 font-sans">
-            {/* Background Texture & Glows */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <div
-                    className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-40"
-                    style={{
-                        maskImage: 'linear-gradient(to right, black 50%, transparent 100%)',
-                        WebkitMaskImage: 'linear-gradient(to right, black 50%, transparent 100%)'
-                    }}
-                ></div>
-
-                <div className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full bg-[#173CBA] opacity-[0.03] blur-[120px]"></div>
-                <div className="absolute top-[20%] right-[0%] w-[40%] h-[60%] rounded-full bg-[#00C798] opacity-[0.03] blur-[120px]"></div>
+        <div className="w-full relative overflow-hidden bg-[#faf8f5] py-24 px-4 font-sans">
+            {/* Notice Board Background Texture */}
+            <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.15]"
+                style={{ backgroundImage: 'radial-gradient(#444cf7 1px, transparent 1px)', backgroundSize: '30px 30px' }}>
             </div>
+            {/* Subtle corkboard warmth */}
+            <div className="absolute inset-0 z-0 pointer-events-none bg-yellow-900/[0.03] mix-blend-multiply"></div>
 
-            {/* Header - Pinned Paper Style */}
-            <div className="relative z-10 mb-12 text-center transform -rotate-1 drop-shadow-2xl">
-                <div
-                    className="bg-white/90 backdrop-blur-sm px-10 py-6 relative"
-                    style={{
-                        clipPath: 'polygon(0% 5%, 5% 0%, 12% 5%, 20% 0%, 30% 5%, 40% 0%, 50% 5%, 60% 0%, 70% 5%, 80% 0%, 90% 5%, 95% 0%, 100% 5%, 98% 15%, 100% 25%, 98% 35%, 100% 45%, 98% 55%, 100% 65%, 98% 75%, 100% 85%, 98% 95%, 100% 100%, 90% 95%, 80% 100%, 70% 95%, 60% 100%, 50% 95%, 40% 100%, 30% 95%, 20% 100%, 10% 95%, 0% 100%, 2% 90%, 0% 80%, 2% 70%, 0% 60%, 2% 50%, 0% 40%, 2% 30%, 0% 20%, 2% 10%)'
-                    }}
+            <div className="max-w-7xl mx-auto relative z-10">
+                {/* Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: -30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-16 relative"
                 >
-                    <div className="w-4 h-4 rounded-full bg-red-500 absolute top-3 left-1/2 -translate-x-1/2 shadow-inner border border-red-700 z-10"></div>
-                    <h1 className="text-3xl md:text-5xl font-bold font-serif text-gray-800 tracking-tight pt-2">
+                    {/* Header 'Tape' */}
+                    <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-32 h-8 bg-white/60 shadow-sm rotate-2 backdrop-blur-sm z-20"></div>
+
+                    <div className="inline-block px-5 py-3 bg-yellow-100 border border-yellow-300 text-yellow-800 text-lg font-bold uppercase tracking-widest mb-4 shadow-sm rotate-[-1deg] translate-y-2 relative z-10">
                         Upcoming Sessions
-                    </h1>
-                </div>
-            </div>
+                    </div>
+                    <h2 className="text-4xl md:text-5xl font-black font-marker text-gray-900 mb-6 tracking-tight leading-[1.1] relative z-10 mix-blend-multiply mt-4">
+                        Real talk with mentors
+                    </h2>
+                    <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed font-medium mb-4">
+                        Grab a slot before they're gone!
+                    </p>
+                </motion.div>
 
-            {/* Filters - Sticky Notes */}
-            <div className="relative z-10 flex flex-wrap justify-center gap-4 mb-16 max-w-4xl px-4">
-                {filters.map((f, i) => (
-                    <motion.button
-                        key={f}
-                        onClick={() => setFilter(f)}
-                        whileHover={{ scale: 1.1, rotate: 0 }}
-                        whileTap={{ scale: 0.95 }}
-                        animate={{
-                            rotate: filter === f ? 0 : (i % 2 === 0 ? 2 : -2),
-                            scale: filter === f ? 1.1 : 1,
-                            zIndex: filter === f ? 20 : 1
-                        }}
-                        className={`
-                            relative px-6 py-3 shadow-md font-serif font-bold text-lg transition-colors duration-200
-                            ${filter === f ? 'bg-yellow-200 text-black shadow-xl' : 'bg-yellow-100 text-gray-700 hover:bg-yellow-50'}
-                        `}
-                        style={{
-                            clipPath: 'polygon(2% 0%, 98% 1%, 100% 98%, 0% 100%)' // Generic jagged paper look
-                        }}
-                    >
-                        {f}
-                    </motion.button>
-                ))}
-            </div>
-
-            {/* Sessions Grid */}
-            <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl px-6 w-full">
-                <AnimatePresence mode='popLayout'>
-                    {filteredSessions.map((session) => (
-                        <motion.div
-                            key={session.id}
-                            layout
-                            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0, rotate: session.rotate }}
-                            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                            whileHover={{ rotate: 0, scale: 1.05, zIndex: 10 }}
-                            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                            className="relative bg-white p-6 shadow-lg group cursor-pointer"
-                            style={{ backgroundColor: session.color }}
+                {/* Filters - Sticky Note Tabs */}
+                <div className="flex flex-wrap justify-center gap-4 mb-20 px-4">
+                    {filters.map((f, i) => (
+                        <motion.button
+                            key={f}
+                            onClick={() => setFilter(f)}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.05 }}
+                            whileHover={{ y: -5, rotate: filter === f ? 0 : (i % 2 === 0 ? 2 : -2) }}
+                            whileTap={{ scale: 0.95 }}
+                            className={`
+                                px-6 py-3 font-black transition-all duration-300 shadow-md relative
+                                ${filter === f
+                                    ? 'bg-blue-600 text-white scale-110 z-10 rotate-0'
+                                    : 'bg-[#fefce8] text-gray-700 hover:bg-yellow-200'}
+                            `}
+                            style={{
+                                borderBottomRightRadius: '15px 5px',
+                                borderBottomLeftRadius: '2px 2px',
+                                borderTopRightRadius: '2px 2px',
+                                borderTopLeftRadius: '2px 2px',
+                                transform: filter !== f ? `rotate(${i % 2 === 0 ? -1 : 1}deg)` : 'rotate(0deg)'
+                            }}
                         >
-                            {/* Pin Graphic */}
-                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-red-500 shadow-md border border-red-600 z-20"></div>
-
-                            <div className="flex justify-between items-start mb-4">
-                                <span className="text-xs font-bold uppercase tracking-wider text-black/50 border border-black/10 px-2 py-1 rounded-sm">
-                                    {session.category}
-                                </span>
-                                <div className="text-right">
-                                    <div className="flex items-center gap-1 text-sm font-bold font-serif text-gray-800">
-                                        <Calendar size={14} /> {session.date}
-                                    </div>
-                                    <div className="flex items-center gap-1 text-xs text-gray-600 mt-1">
-                                        <Clock size={12} /> {session.time}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h3 className="text-xl font-bold font-serif text-gray-900 mb-2 leading-tight min-h-[56px] flex items-center">
-                                {session.topic}
-                            </h3>
-
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 overflow-hidden">
-                                    {session.image ? (
-                                        <img src={session.image} alt={session.mentor} className="w-full h-full object-cover" />
-                                    ) : (
-                                        <User size={20} />
-                                    )}
-                                </div>
-                                <div>
-                                    <p className="text-sm font-bold text-gray-800">{session.mentor}</p>
-                                    <p className="text-xs text-gray-600">{session.role}</p>
-                                </div>
-                            </div>
-
-                            <button
-                                onClick={() => setSelectedSession(session)}
-                                className="w-full bg-black/5 hover:bg-black/10 text-gray-900 font-bold py-2 rounded-sm transition-colors flex items-center justify-center gap-2 group-hover:bg-primary group-hover:text-white"
-                            >
-                                Reserve Spot <ArrowRight size={16} />
-                            </button>
-                        </motion.div>
+                            {/* Tape for filter */}
+                            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-4 bg-white/50 shadow-sm rotate-[5deg]"></div>
+                            {f}
+                        </motion.button>
                     ))}
-                </AnimatePresence>
+                </div>
+
+                {/* Sessions Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full px-2 max-w-6xl mx-auto">
+                    <AnimatePresence mode='popLayout'>
+                        {filteredSessions.map((session, index) => (
+                            <motion.div
+                                key={session.id}
+                                layout
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1, rotate: hoveredId === session.id ? 0 : session.rotate }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                                onMouseEnter={() => setHoveredId(session.id)}
+                                onMouseLeave={() => setHoveredId(null)}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 100,
+                                    damping: 15,
+                                    delay: index * 0.05
+                                }}
+                                whileHover={{ scale: 1.05, zIndex: 50, y: -10 }}
+                                onClick={() => setSelectedSession(session)}
+                                className="group relative p-6 shadow-[2px_4px_10px_rgba(0,0,0,0.15)] hover:shadow-[10px_15px_25px_rgba(0,0,0,0.2)] cursor-pointer transition-shadow duration-300"
+                                style={{
+                                    backgroundColor: session.color,
+                                    borderBottomRightRadius: '40px 10px',
+                                    borderBottomLeftRadius: '2px 2px',
+                                    borderTopRightRadius: '2px 2px',
+                                    borderTopLeftRadius: '2px 2px',
+                                    zIndex: hoveredId === session.id ? 50 : 10
+                                }}
+                            >
+                                {/* Tape at the top */}
+                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-white/50 shadow-sm rotate-[-2deg] backdrop-blur-sm border border-white/20"></div>
+
+                                {/* Student Activity Pulse */}
+                                <div className="absolute top-6 left-6 flex items-center gap-2 z-20 mix-blend-multiply">
+                                    <div className="relative flex h-3 w-3">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-black/40 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-black/60"></span>
+                                    </div>
+                                    <span className="text-[10px] font-black text-black/60 uppercase tracking-widest">{session.peerPulse}</span>
+                                </div>
+
+                                <div className="relative z-10 pt-5">
+                                    <div className="flex justify-between items-start mb-5">
+                                        <div className="flex flex-col gap-1">
+                                            <div className="text-lg font-bold text-gray-900 mix-blend-multiply">{session.vibes.split(' ')[0]}</div>
+                                            <span className="text-[9px] font-black uppercase tracking-widest text-[#173CBA] bg-white/60 px-2 py-0.5 rounded shadow-sm border border-white/50 mix-blend-luminosity">
+                                                {session.vibes.split(' ').slice(1).join(' ')}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-col items-end gap-1 px-3 py-1.5 bg-white/50 backdrop-blur-sm shadow-sm rotate-1" style={{ borderBottomRightRadius: '10px 2px' }}>
+                                            <div className="flex items-center gap-1.5 text-xs font-black text-gray-900 mix-blend-multiply">
+                                                <Calendar size={12} className="text-gray-900 stroke-[3px]" /> {session.date}
+                                            </div>
+                                            <div className="text-[10px] font-bold text-gray-700 uppercase tracking-tight mix-blend-multiply">
+                                                {session.time}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h3 className="text-2xl md:text-[26px] font-bold font-serif text-gray-900 mb-5 leading-tight group-hover:text-blue-700 transition-all duration-300 min-h-[64px] mix-blend-multiply">
+                                        {session.topic}
+                                    </h3>
+
+                                    {/* The "Catch" - Notice Board Style */}
+                                    <div className="mb-5 p-2.5 bg-black/5 border-l-4 border-orange-500 relative mix-blend-multiply">
+                                        <p className="text-[9px] font-black uppercase tracking-widest text-orange-700 mb-1 flex items-center gap-1">
+                                            <span className="text-xs">⚠️</span> The Catch
+                                        </p>
+                                        <p className="text-[11px] font-bold text-gray-800 leading-normal italic">{session.theCatch}</p>
+                                    </div>
+
+                                    <div className="flex items-center gap-3 mb-5">
+                                        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shadow-md border-2 border-white rotate-[-3deg]">
+                                            {session.image ? (
+                                                <img src={session.image} alt={session.mentor} className="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 transition-all duration-500" />
+                                            ) : (
+                                                <User size={20} />
+                                            )}
+                                        </div>
+                                        <div>
+                                            <p className="text-base font-black text-gray-900 leading-tight tracking-tight mix-blend-multiply">{session.mentor}</p>
+                                            <p className="text-[11px] font-bold text-gray-700 mt-0.5 mix-blend-multiply">{session.role}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center justify-between pt-3 border-t-2 border-dashed border-black/10 mt-auto">
+                                        <div className="flex flex-col max-w-[80%]">
+                                            <span className="text-[12px] font-bold text-gray-800 tracking-tight italic mix-blend-multiply leading-snug">
+                                                "{session.sentiment}"
+                                            </span>
+                                        </div>
+                                        <div className="w-8 h-8 bg-black/80 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform rotate-[-10deg] group-hover:rotate-0 group-hover:bg-blue-600">
+                                            <ArrowRight size={16} strokeWidth={3} />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Pen scratch annotation hidden initially */}
+                                <div className="absolute top-2 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                    <div className="text-[12px] text-red-600 font-marker rotate-[15deg] underline decoration-wavy">Join!</div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </div>
             </div>
 
             <SessionReservationSheet

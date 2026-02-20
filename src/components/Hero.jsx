@@ -202,7 +202,10 @@ const Hero = () => {
 
                 {/* Buttons */}
                 <div className="flex flex-wrap gap-8 mb-16 w-full">
-                    <button className="bg-primary text-white px-8 py-3 rounded-lg font-medium text-lg hover:bg-blue-600 transition-colors shadow-sm flex items-center justify-center gap-2 w-full sm:w-auto h-[50px] min-w-[280px]">
+                    <button
+                        onClick={() => document.getElementById('our-mentors')?.scrollIntoView({ behavior: 'smooth' })}
+                        className="bg-primary text-white px-8 py-3 rounded-lg font-medium text-lg hover:bg-blue-600 transition-colors shadow-sm flex items-center justify-center gap-2 w-full sm:w-auto h-[50px] min-w-[280px]"
+                    >
                         <User size={20} /> Find My Mentor
                     </button>
                     <button className="bg-white text-primary border border-primary px-8 py-3 rounded-lg font-medium text-lg hover:bg-blue-50 transition-colors shadow-sm flex items-center justify-center gap-2 w-full sm:w-auto h-[50px]">

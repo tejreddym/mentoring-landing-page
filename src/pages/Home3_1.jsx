@@ -28,7 +28,7 @@ const Home3_1 = () => {
             </section>
 
             {/* Section 2.5: Spotlight Mentors */}
-            <section className="relative z-35">
+            <section id="our-mentors" className="relative z-35">
                 <SixMentors />
             </section>
 
