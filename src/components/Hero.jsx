@@ -254,7 +254,7 @@ const Hero = () => {
             </div>
 
             {/* Right Column */}
-            <div className="relative flex items-center justify-center bg-gray-100/50 md:bg-transparent h-[50vh] md:h-auto w-full order-2">
+            <div className="relative flex items-center justify-center bg-gray-100/50 md:bg-transparent min-h-[500px] md:min-h-0 md:h-auto w-full order-2 mb-12 md:mb-0">
 
                 {/* Floating Bubbles Removed */}
 

@@ -236,7 +236,7 @@ export default function App() {
                         #1 Mentorship Platform
                     </div>
 
-                    <h1 className="text-6xl md:text-7xl font-serif font-bold text-gray-900 mb-8 tracking-tight leading-tight">
+                    <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif font-bold text-gray-900 mb-8 tracking-tight leading-tight">
                         Find Your <span className="text-transparent bg-clip-text bg-gradient-to-br from-blue-700 via-indigo-600 to-violet-600">Perfect Mentor</span>
                     </h1>
 

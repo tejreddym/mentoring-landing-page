@@ -21,7 +21,7 @@ export function MentorCard({
     onViewProfile,
 }) {
     return (
-        <div className="bg-white rounded-3xl p-8 border border-gray-100 hover:border-blue-200 transition-all duration-300 shadow-sm hover:shadow-xl group relative overflow-hidden">
+        <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 hover:border-blue-200 transition-all duration-300 shadow-sm hover:shadow-xl group relative overflow-hidden">
             {/* Featured Badge */}
             {/* Rating Badge */}
             {/* Top Right Actions: Favorite & Rating */}
@@ -141,16 +141,16 @@ export function MentorCard({
                         ))}
                     </div>
 
-                    <div className="flex items-center justify-center md:justify-start gap-4">
+                    <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                         <Button
                             variant="ghost"
-                            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 px-6 py-6 text-base font-semibold rounded-full transition-colors flex items-center gap-2"
+                            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 px-6 py-6 text-base font-semibold rounded-full transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
                             onClick={onViewProfile}
                         >
                             View Profile
                         </Button>
                         <Button
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-base rounded-full shadow-md shadow-blue-100 transition-all hover:shadow-lg font-semibold flex items-center gap-2 grow md:grow-0"
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-base rounded-full shadow-md shadow-blue-100 transition-all hover:shadow-lg font-semibold flex items-center justify-center gap-2 w-full sm:grow sm:md:grow-0"
                             onClick={onViewProfile}
                         >
                             Book a Session <ChevronRight className="w-4 h-4 ml-1" />

@@ -4,6 +4,14 @@ import { X } from 'lucide-react';
 
 const FAQ = () => {
     const [focusedIndex, setFocusedIndex] = useState(null);
+    const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+
+    React.useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const questions = [
         {
@@ -64,14 +72,14 @@ const FAQ = () => {
         animate: (item) => ({
             opacity: 1,
             scale: 1,
-            x: item.x * 10,
-            y: item.y * 10,
-            rotate: item.rotation,
+            x: isMobile ? 0 : item.x * 10,
+            y: isMobile ? 0 : item.y * 10,
+            rotate: isMobile ? 0 : item.rotation,
             transition: {
                 type: "spring",
                 stiffness: 100,
                 damping: 20,
-                delay: (item.id - 1) * 0.1,
+                delay: isMobile ? (item.id - 1) * 0.15 : (item.id - 1) * 0.1,
             }
         })
     };
@@ -86,7 +94,7 @@ const FAQ = () => {
                 }}
             />
 
-            <div className="relative z-10 max-w-5xl w-full h-auto md:h-[80vh] flex flex-col py-10 md:py-0">
+            <div className="relative z-10 max-w-5xl w-full h-auto px-4 flex flex-col py-16 md:py-24">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -97,7 +105,7 @@ const FAQ = () => {
                     Common Questions
                 </motion.h2>
 
-                <div className="relative w-full flex-1 flex items-center justify-center">
+                <div className={`relative w-full ${isMobile ? 'flex flex-col items-center gap-6 mt-4' : 'flex-1 flex items-center justify-center min-h-[600px] mt-12'}`}>
                     {questions.map((item, index) => {
                         const isFocused = focusedIndex === index;
 
@@ -114,14 +122,15 @@ const FAQ = () => {
                                 animate={isFocused ? {
                                     rotate: 0,
                                     x: 0,
-                                    y: 0,
-                                    scale: 1.2,
+                                    y: isMobile ? -10 : 0,
+                                    scale: isMobile ? 1.05 : 1.2,
                                     zIndex: 50,
                                     opacity: 1
                                 } : undefined}
-                                whileHover={{ scale: isFocused ? 1.2 : 1.1, zIndex: 40 }}
+                                whileHover={{ scale: isFocused ? (isMobile ? 1.05 : 1.2) : (isMobile ? 1.02 : 1.1), zIndex: 40 }}
                                 className={`
-                                    absolute w-64 h-80 md:w-72 md:h-96 p-6 rounded-sm shadow-xl cursor-pointer
+                                    ${isMobile ? 'relative w-full max-w-[340px] min-h-[280px]' : 'absolute w-64 h-80 md:w-72 md:h-96'}
+                                    p-6 rounded-sm shadow-xl cursor-pointer
                                     flex flex-col justify-between
                                     border border-gray-200/50 transform-gpu
                                 `}

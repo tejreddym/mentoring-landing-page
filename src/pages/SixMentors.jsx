@@ -17,8 +17,10 @@ const SixMentors = () => {
     const [activeMentorIndex, setActiveMentorIndex] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [isGridActive, setIsGridActive] = useState(false); // Track grid layout state
+    const [activeSubIndex, setActiveSubIndex] = useState(0); // For mobile carousel dots
+    const [isMobile, setIsMobile] = useState(false); // Track mobile view
 
-    // Refs for GSAP
+    // Refs for GSAP and scrolling
     const containerRef = useRef(null);
     const innerContainerRef = useRef(null);
     const stickyViewportRef = useRef(null);
@@ -28,6 +30,7 @@ const SixMentors = () => {
     const rightPanelRef = useRef(null);
     const gridRef = useRef(null);
     const cardsRef = useRef([]);
+    const carouselContainerRef = useRef(null);
 
     // Data
     const MENTOR_CARDS = [
@@ -437,6 +440,50 @@ const SixMentors = () => {
         },
     ];
 
+    // Handle Mobile View Detection
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 767);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Handle Scroll for Carousel Pagination Dots
+    const handleCarouselScroll = () => {
+        if (!carouselContainerRef.current) return;
+        const container = carouselContainerRef.current;
+
+        const slideWidth = container.offsetWidth;
+        const scrollPosition = container.scrollLeft;
+        const centerOffset = scrollPosition + (slideWidth / 2);
+
+        let activeIndex = 0;
+        let minDistance = Infinity;
+
+        Array.from(container.children).forEach((child, index) => {
+            const childCenter = child.offsetLeft + (child.offsetWidth / 2);
+            const distance = Math.abs(centerOffset - childCenter);
+
+            if (distance < minDistance) {
+                minDistance = distance;
+                activeIndex = index;
+            }
+        });
+
+        const maxIndex = isMobile ? MENTORS_DATA.length : currentSubMentors.length;
+        if (activeIndex < maxIndex) {
+            if (activeSubIndex !== activeIndex) {
+                setActiveSubIndex(activeIndex);
+            }
+            if (isMobile && activeMentorIndex !== activeIndex) {
+                setActiveMentorIndex(activeIndex);
+            }
+        }
+    };
+
     useLayoutEffect(() => {
         // Initial Settings
         gsap.set(torchRef.current, { opacity: 1, x: 0, y: 0 });
@@ -735,199 +782,233 @@ const SixMentors = () => {
                                 marginBottom: "12px",
                             }}
                         >
-                            Mentors
+                            {currentData ? currentData.name : "Mentors"}
                         </h3>
                         <div className="sub-grid" id="subGrid" ref={gridRef}>
-                            {/* 1. Show ONLY the first mentor */}
-                            {currentSubMentors.length > 0 && (
-                                <div className="sub-card featured-mentor-card">
-                                    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-                                        {/* Header */}
-                                        <div className="card-header" style={{ display: "flex", gap: "16px", alignItems: "center", paddingBottom: "16px", borderBottom: "1px solid #f1f5f9", marginBottom: "16px" }}>
-                                            <img
-                                                src={currentSubMentors[0].img}
-                                                alt={currentSubMentors[0].n}
-                                                style={{
-                                                    width: "72px",
-                                                    height: "72px",
-                                                    borderRadius: "50%",
-                                                    objectFit: "cover",
-                                                }}
-                                            />
-                                            <div>
-                                                <h4
-                                                    style={{
-                                                        margin: 0,
-                                                        fontSize: "20px",
-                                                        color: "#0f172a",
-                                                        fontWeight: 700,
-                                                    }}
-                                                >
-                                                    {currentSubMentors[0].n}
-                                                </h4>
-                                                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px" }}>
-                                                    <span style={{ fontSize: "13px", color: "#f59e0b", fontWeight: 700 }}>★ 4.9</span>
-                                                    <span style={{ fontSize: "13px", color: "#64748b" }}>(120 reviews)</span>
+                            {/* Render Carousel on Mobile or Single Focus on Desktop */}
+                            <div
+                                className="sub-carousel-container"
+                                ref={carouselContainerRef}
+                                onScroll={handleCarouselScroll}
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: isMobile ? 'row' : 'column',
+                                    flex: 1,
+                                    gap: "16px",
+                                    overflowX: isMobile ? 'auto' : 'hidden',
+                                    scrollSnapType: isMobile ? 'x mandatory' : 'none',
+                                    scrollBehavior: 'smooth',
+                                    paddingBottom: isMobile ? '10px' : '0' // space for scrollbar/dots
+                                }}
+                            >
+                                {/* On Mobile: render all categories. On Desktop: render only the first submentor of the active category */}
+                                {isMobile ? MENTORS_DATA.map((category, idx) => {
+                                    const subMentor = category.subs[0];
+                                    return (
+                                        <div
+                                            key={idx}
+                                            className="sub-card featured-mentor-card mobile-swipe-card"
+                                            style={{
+                                                flex: "0 0 100%", // Force full width for mobile snapping
+                                                height: '100%',
+                                                scrollSnapAlign: 'center',
+                                            }}
+                                        >
+                                            <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+                                                {/* Header */}
+                                                <div className="card-header" style={{ display: "flex", gap: "16px", alignItems: "center", paddingBottom: "16px", borderBottom: "1px solid #f1f5f9", marginBottom: "16px" }}>
+                                                    <img
+                                                        src={subMentor.img}
+                                                        alt={subMentor.n}
+                                                        style={{ width: "72px", height: "72px", borderRadius: "50%", objectFit: "cover" }}
+                                                    />
+                                                    <div>
+                                                        <h4 style={{ margin: 0, fontSize: "20px", color: "#0f172a", fontWeight: 700 }}>{subMentor.n}</h4>
+                                                        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px" }}>
+                                                            <span style={{ fontSize: "13px", color: "#f59e0b", fontWeight: 700 }}>★ 4.9</span>
+                                                            <span style={{ fontSize: "13px", color: "#64748b" }}>(120 reviews)</span>
+                                                        </div>
+                                                        <span style={{ fontSize: "13px", color: "#3B82F6", fontWeight: 600, display: "block", marginTop: "4px" }}>{subMentor.e} Experience</span>
+                                                    </div>
                                                 </div>
-                                                <span
-                                                    style={{
-                                                        fontSize: "13px",
-                                                        color: "#3B82F6",
-                                                        fontWeight: 600,
-                                                        display: "block",
-                                                        marginTop: "4px",
-                                                    }}
-                                                >
-                                                    {currentSubMentors[0].e} Experience
-                                                </span>
-                                            </div>
-                                        </div>
 
+                                                <div style={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: "20px" }}>
+                                                    {/* About */}
+                                                    <div>
+                                                        <h5 style={{ margin: "0 0 8px 0", fontSize: "12px", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: 700 }}>About</h5>
+                                                        <p style={{ fontSize: "14px", color: "#334155", margin: 0, lineHeight: 1.6 }}>{subMentor.d}. Dedicated to guiding students through their academic journey with personalized strategies and expert insights.</p>
+                                                    </div>
 
+                                                    {/* Stats */}
+                                                    <div style={{ display: "flex", gap: "32px", justifyContent: 'space-between' }}>
+                                                        <div><span style={{ display: "block", fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>500+</span><span style={{ fontSize: "12px", color: "#64748b" }}>Sessions</span></div>
+                                                        <div><span style={{ display: "block", fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>Top 1%</span><span style={{ fontSize: "12px", color: "#64748b" }}>Mentor</span></div>
+                                                        <div><span style={{ display: "block", fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>98%</span><span style={{ fontSize: "12px", color: "#64748b" }}>Success Rate</span></div>
+                                                    </div>
 
-                                        <div style={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: "20px" }}>
-
-                                            {/* About */}
-                                            <div>
-                                                <h5 style={{ margin: "0 0 8px 0", fontSize: "12px", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: 700 }}>About</h5>
-                                                <p
-                                                    style={{
-                                                        fontSize: "14px",
-                                                        color: "#334155",
-                                                        margin: 0,
-                                                        lineHeight: 1.6,
-                                                    }}
-                                                >
-                                                    {currentSubMentors[0].d}. Dedicated to guiding students through their academic journey with personalized strategies and expert insights.
-                                                </p>
-                                            </div>
-
-                                            {/* Stats */}
-                                            <div style={{ display: "flex", gap: "32px" }}>
-                                                <div>
-                                                    <span style={{ display: "block", fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>500+</span>
-                                                    <span style={{ fontSize: "12px", color: "#64748b" }}>Sessions</span>
+                                                    {/* Expertise */}
+                                                    <div>
+                                                        <h5 style={{ margin: "0 0 8px 0", fontSize: "12px", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: 700 }}>Expertise</h5>
+                                                        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                                                            {["Study Abroad", "Scholarships", "Career", "Admissions"].map((tag, i) => (
+                                                                <span key={i} style={{ background: "#e0f2fe", color: "#0284c7", padding: "6px 12px", borderRadius: "20px", fontSize: "12px", fontWeight: 600 }}>{tag}</span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <span style={{ display: "block", fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>Top 1%</span>
-                                                    <span style={{ fontSize: "12px", color: "#64748b" }}>Mentor</span>
-                                                </div>
-                                                <div>
-                                                    <span style={{ display: "block", fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>98%</span>
-                                                    <span style={{ fontSize: "12px", color: "#64748b" }}>Success Rate</span>
-                                                </div>
-                                            </div>
 
-                                            {/* Expertise Tags */}
-                                            <div>
-                                                <h5 style={{ margin: "0 0 8px 0", fontSize: "12px", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: 700 }}>Expertise</h5>
-                                                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                                                    {["Study Abroad", "Scholarships", "Career", "Admissions"].map((tag, i) => (
-                                                        <span key={i} style={{
-                                                            background: "#e0f2fe",
-                                                            color: "#0284c7",
-                                                            padding: "6px 12px",
-                                                            borderRadius: "20px",
-                                                            fontSize: "12px",
-                                                            fontWeight: 600
-                                                        }}>
-                                                            {tag}
-                                                        </span>
-                                                    ))}
+                                                {/* Mobile View All Button placed at bottom of each mentor card */}
+                                                <div style={{ marginTop: '20px' }}>
+                                                    <Link to="/mentor-profiles" style={{ textDecoration: 'none' }}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '12px', background: '#f1f5f9', borderRadius: '8px', border: '1px dashed #cbd5e1' }}>
+                                                            <span style={{ fontSize: '14px', fontWeight: 600, color: '#334155' }}>View All {category.name}s</span>
+                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                                                        </div>
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </div>
+                                    );
+                                }) : currentSubMentors.length > 0 && (
+                                    <div className="sub-card featured-mentor-card">
+                                        <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+                                            {/* Header */}
+                                            <div className="card-header" style={{ display: "flex", gap: "16px", alignItems: "center", paddingBottom: "16px", borderBottom: "1px solid #f1f5f9", marginBottom: "16px" }}>
+                                                <img src={currentSubMentors[0].img} alt={currentSubMentors[0].n} style={{ width: "72px", height: "72px", borderRadius: "50%", objectFit: "cover" }} />
+                                                <div>
+                                                    <h4 style={{ margin: 0, fontSize: "20px", color: "#0f172a", fontWeight: 700 }}>{currentSubMentors[0].n}</h4>
+                                                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px" }}>
+                                                        <span style={{ fontSize: "13px", color: "#f59e0b", fontWeight: 700 }}>★ 4.9</span>
+                                                        <span style={{ fontSize: "13px", color: "#64748b" }}>(120 reviews)</span>
+                                                    </div>
+                                                    <span style={{ fontSize: "13px", color: "#3B82F6", fontWeight: 600, display: "block", marginTop: "4px" }}>{currentSubMentors[0].e} Experience</span>
+                                                </div>
+                                            </div>
 
-                                        {/* Footer: Connect Button Rigth Aligned */}
-                                        <div style={{ marginTop: "auto", paddingTop: "20px", display: "flex", justifyContent: "flex-end", borderTop: "1px solid #f1f5f9" }}>
-                                            <button className="sub-btn" style={{ margin: 0, padding: "12px 32px", fontSize: "15px", fontWeight: 600, boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)" }}>Connect</button>
-                                        </div>
+                                            <div style={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: "20px" }}>
+                                                {/* About */}
+                                                <div>
+                                                    <h5 style={{ margin: "0 0 8px 0", fontSize: "12px", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: 700 }}>About</h5>
+                                                    <p style={{ fontSize: "14px", color: "#334155", margin: 0, lineHeight: 1.6 }}>{currentSubMentors[0].d}. Dedicated to guiding students through their academic journey with personalized strategies and expert insights.</p>
+                                                </div>
 
-                                        <div className="card-arrow">
-                                            <svg
-                                                width="10"
-                                                height="10"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="3"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            >
-                                                <path d="M7 17L17 7"></path>
-                                                <path d="M7 7h10v10"></path>
-                                            </svg>
+                                                {/* Stats */}
+                                                <div style={{ display: "flex", gap: "32px", justifyContent: 'flex-start' }}>
+                                                    <div><span style={{ display: "block", fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>500+</span><span style={{ fontSize: "12px", color: "#64748b" }}>Sessions</span></div>
+                                                    <div><span style={{ display: "block", fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>Top 1%</span><span style={{ fontSize: "12px", color: "#64748b" }}>Mentor</span></div>
+                                                    <div><span style={{ display: "block", fontSize: "18px", fontWeight: 700, color: "#0f172a" }}>98%</span><span style={{ fontSize: "12px", color: "#64748b" }}>Success Rate</span></div>
+                                                </div>
+
+                                                {/* Expertise Tags */}
+                                                <div>
+                                                    <h5 style={{ margin: "0 0 8px 0", fontSize: "12px", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: 700 }}>Expertise</h5>
+                                                    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                                                        {["Study Abroad", "Scholarships", "Career", "Admissions"].map((tag, i) => (
+                                                            <span key={i} style={{ background: "#e0f2fe", color: "#0284c7", padding: "6px 12px", borderRadius: "20px", fontSize: "12px", fontWeight: 600 }}>{tag}</span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="card-arrow">
+                                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7"></path><path d="M7 7h10v10"></path></svg>
+                                            </div>
                                         </div>
                                     </div>
+                                )}
+                            </div>
+
+                            {/* Mobile Pagination Dots */}
+                            {isMobile && MENTORS_DATA.length > 0 && (
+                                <div style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    gap: '8px',
+                                    marginTop: '8px',
+                                    marginBottom: '4px'
+                                }}>
+                                    {MENTORS_DATA.map((_, idx) => (
+                                        <div
+                                            key={idx}
+                                            style={{
+                                                width: activeSubIndex === idx ? '24px' : '8px',
+                                                height: '8px',
+                                                borderRadius: '4px',
+                                                background: activeSubIndex === idx ? '#3b82f6' : '#cbd5e1',
+                                                transition: 'all 0.3s ease'
+                                            }}
+                                        />
+                                    ))}
                                 </div>
                             )}
 
-                            {/* 2. Dummy "View More" Button / Card */}
-                            <Link to="/mentor-profiles" style={{ textDecoration: 'none', color: 'inherit' }}>
-                                <div
-                                    className="sub-card view-all-card"
-                                    style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        textAlign: "center",
-                                        background: "#f1f5f9", // Slight contrast
-                                        borderStyle: "dashed",
-                                        cursor: "pointer",
-                                        transition: "all 0.3s ease",
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.background = "#e2e8f0";
-                                        e.currentTarget.style.borderColor = "#3b82f6";
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.background = "#f1f5f9";
-                                        e.currentTarget.style.borderColor = "";
-                                    }}
-                                >
-                                    <div className="view-all-content" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        <div
-                                            style={{
-                                                width: "48px",
-                                                height: "48px",
-                                                borderRadius: "50%",
-                                                background: "#e2e8f0",
-                                                color: "#64748b",
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                // Removed margin: 0 auto... to allow flex gap to handle spacing
-                                                flexShrink: 0,
-                                            }}
-                                        >
-                                            <svg
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
+                            {/* Desktop "View More" Button / Card */}
+                            {!isMobile && (
+                                <Link to="/mentor-profiles" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <div
+                                        className="sub-card view-all-card"
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            textAlign: "center",
+                                            background: "#f1f5f9", // Slight contrast
+                                            borderStyle: "dashed",
+                                            cursor: "pointer",
+                                            transition: "all 0.3s ease",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.background = "#e2e8f0";
+                                            e.currentTarget.style.borderColor = "#3b82f6";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.background = "#f1f5f9";
+                                            e.currentTarget.style.borderColor = "";
+                                        }}
+                                    >
+                                        <div className="view-all-content" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                            <div
+                                                style={{
+                                                    width: "48px",
+                                                    height: "48px",
+                                                    borderRadius: "50%",
+                                                    background: "#e2e8f0",
+                                                    color: "#64748b",
+                                                    display: "flex",
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                    // Removed margin: 0 auto... to allow flex gap to handle spacing
+                                                    flexShrink: 0,
+                                                }}
                                             >
-                                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                                <circle cx="9" cy="7" r="4"></circle>
-                                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                            </svg>
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
-                                            <h4 style={{ margin: 0, fontSize: "14px", color: "#334155" }}>
-                                                View All Mentors
-                                            </h4>
-                                            <span style={{ fontSize: "11px", color: "#94a3b8" }}>
-                                                Discover more experts
-                                            </span>
+                                                <svg
+                                                    width="24"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                >
+                                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                                    <circle cx="9" cy="7" r="4"></circle>
+                                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                                </svg>
+                                            </div>
+                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
+                                                <h4 style={{ margin: 0, fontSize: "14px", color: "#334155" }}>
+                                                    View All Mentors
+                                                </h4>
+                                                <span style={{ fontSize: "11px", color: "#94a3b8" }}>
+                                                    Discover more experts
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Link>
-
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>

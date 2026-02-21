@@ -618,7 +618,49 @@
         line-height: 1.5 !important;
     }
 
+    .torch-wrap {
+        position: absolute;
+        top: 8%;
+        transform: none;
+        z-index: 0;
+    }
+
     .torch-wrap h2 {
         font-size: 2.5rem !important;
+        margin-bottom: 5px;
+    }
+
+    .torch-wrap img {
+        margin-top: 10px;
+    }
+
+    /* Hide the 6 mentor cards on mobile when transitioned to grid mode */
+    #root .mentor-card.mentors-layout {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        display: none !important;
+    }
+
+    /* Make the right-panel take full width on mobile */
+    .right-panel {
+        width: 90% !important;
+        right: 5% !important;
+        left: 5% !important;
+        top: 55% !important;
+        height: auto !important;
+        min-height: 580px !important;
+        padding-bottom: 24px !important;
+    }
+
+    /* Hide scrollbar for the mobile horizontal carousel */
+    .sub-carousel-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .sub-carousel-container {
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
     }
 }

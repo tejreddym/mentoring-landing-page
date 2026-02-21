@@ -64,6 +64,15 @@ const Pricing = () => {
         }
     ];
 
+    const [isMobile, setIsMobile] = React.useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+
+    React.useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     return (
         <div className="relative min-h-[120vh] bg-[#F5F5F0] py-20">
             <div className="container mx-auto px-4 flex flex-col items-center">
@@ -86,12 +95,13 @@ const Pricing = () => {
                         Our Guidance Packs
                     </motion.h2>
 
-                    <div className="relative w-full min-h-[600px] flex flex-col md:flex-row items-center justify-center perspective-[1000px]">
+                    <div className={`relative w-full flex items-center justify-center perspective-[1000px] ${isMobile ? 'flex-col gap-8 min-h-auto' : 'flex-row min-h-[600px]'}`}>
                         {packs.map((pack, index) => (
                             <PricingCard
                                 key={pack.id}
                                 pack={pack}
                                 index={index}
+                                isMobile={isMobile}
                             />
                         ))}
                     </div>
@@ -101,9 +111,8 @@ const Pricing = () => {
     );
 };
 
-const PricingCard = ({ pack, index }) => {
+const PricingCard = ({ pack, index, isMobile }) => {
     const isMiddle = pack.id === 2;
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
     const variants = {
         initial: {
@@ -140,7 +149,7 @@ const PricingCard = ({ pack, index }) => {
             style={{
                 backgroundColor: pack.color,
                 position: isMobile ? 'relative' : 'absolute',
-                marginTop: isMobile ? '24px' : '0'
+                marginTop: 0 // Handled by flex gap now on mobile
             }}
             className={`
                 w-full max-w-[340px] md:w-[350px] p-6 rounded-sm shadow-xl cursor-default
