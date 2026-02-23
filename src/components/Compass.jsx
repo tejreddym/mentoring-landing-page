@@ -126,7 +126,7 @@ const Compass = ({ targetHeading = null, activeMentor = null, children, onLabelL
                         exit={{ opacity: 0, scale: 0.8, y: 10, x: "-50%" }}
                         transition={{ duration: 0.3, type: "spring", stiffness: 200, damping: 20 }}
                         onClick={() => onLabelLock(labels[currentIndex].id)}
-                        className="absolute bottom-[calc(50%+140px)] md:bottom-[calc(50%+240px)] left-1/2 z-50 pointer-events-auto cursor-pointer flex flex-col items-center group/bubble"
+                        className="absolute bottom-[calc(50%+170px)] md:bottom-[calc(50%+240px)] left-1/2 z-50 pointer-events-auto cursor-pointer flex flex-col items-center group/bubble"
                     >
                         <div className="relative bg-white p-1 rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.15)] border border-slate-100 transition-transform duration-300 group-hover/bubble:scale-105">
                             <div className="w-20 h-16 md:w-40 md:h-28 rounded-lg overflow-hidden bg-slate-50 relative">

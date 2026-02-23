@@ -9,7 +9,7 @@ const partners = [
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=facearea&facepad=2&w=256&h=256&q=80",
         quote: "Since partnering, our lead generation has increased by 450%. The tools are intuitive and the support is unmatched.",
         position: "top-[5%] left-[20%]",
-        size: "w-20 h-20"
+        size: "w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20"
     },
     {
         id: 2,
@@ -18,7 +18,7 @@ const partners = [
         image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=facearea&facepad=2&w=256&h=256&q=80",
         quote: "The scalability of the platform allowed us to handle our Black Friday traffic without a single hitch.",
         position: "top-[15%] right-[10%]",
-        size: "w-20 h-20"
+        size: "w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20"
     },
     {
         id: 3,
@@ -27,7 +27,7 @@ const partners = [
         image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=facearea&facepad=2&w=256&h=256&q=80",
         quote: "A game-changer for our workflow. We've saved countless hours on manual tasks.",
         position: "bottom-[15%] left-[15%]",
-        size: "w-20 h-20"
+        size: "w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20"
     },
     {
         id: 4,
@@ -36,7 +36,7 @@ const partners = [
         image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=facearea&facepad=2&w=256&h=256&q=80",
         quote: "The analytics dashboard gives us insights we didn't even know we needed. Highly recommended.",
         position: "bottom-[10%] right-[25%]",
-        size: "w-20 h-20"
+        size: "w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20"
     },
     {
         id: 5,
@@ -45,7 +45,7 @@ const partners = [
         image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?crop=entropy&cs=tinysrgb&fit=facearea&facepad=2&w=256&h=256&q=80",
         quote: "Revenue is up 30% quarter over quarter. The ROI speaks for itself.",
         position: "top-[45%] left-[45%]",
-        size: "w-20 h-20"
+        size: "w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20"
     },
     {
         id: 6,
@@ -54,7 +54,7 @@ const partners = [
         image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?crop=entropy&cs=tinysrgb&fit=facearea&facepad=2&w=256&h=256&q=80",
         quote: "We launched three months ahead of schedule thanks to these tools.",
         position: "top-[40%] right-[5%]",
-        size: "w-20 h-20"
+        size: "w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20"
     },
     {
         id: 7,
@@ -63,7 +63,7 @@ const partners = [
         image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=facearea&facepad=2&w=256&h=256&q=80",
         quote: "Sustainability tracking has never been easier. Truly revolutionary.",
         position: "bottom-[35%] left-[5%]",
-        size: "w-20 h-20"
+        size: "w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20"
     }
 ];
 
@@ -108,9 +108,9 @@ export function PartnerSpotlight() {
                 >
 
                     {/* Left Column: Avatar Cluster */}
-                    <div className="relative w-full lg:w-1/2 h-[400px] lg:h-[500px] flex items-center justify-center">
+                    <div className="relative w-full lg:w-1/2 h-[280px] md:h-[400px] lg:h-[500px] flex items-center justify-center">
                         {/* Background Blob */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-blue-200/50 rounded-full blur-3xl" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] md:w-[300px] h-[200px] md:h-[300px] bg-blue-200/50 rounded-full blur-3xl" />
 
                         {/* Avatars */}
                         <div className="relative w-full h-full">
@@ -121,7 +121,7 @@ export function PartnerSpotlight() {
                                     <motion.button
                                         key={partner.id}
                                         className={`absolute rounded-full p-1 transition-all duration-500 ease-out object-cover ${partner.position} ${isActive
-                                            ? "w-40 h-40 ring-4 ring-offset-4 ring-[#173CBA] z-30 shadow-xl shadow-blue-900/20"
+                                            ? "w-28 h-28 md:w-32 md:h-32 lg:w-40 lg:h-40 ring-4 ring-offset-4 ring-[#173CBA] z-30 shadow-xl shadow-blue-900/20"
                                             : `${partner.size} ring-1 ring-white/50 hover:ring-2 hover:ring-[#00C798] z-10 grayscale hover:grayscale-0`
                                             }`}
                                         onClick={() => setActiveId(partner.id)}
